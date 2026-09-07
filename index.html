@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Curling Games Hub | Daily Word & Puzzle Games</title>
+  <meta name="description" content="A curated collection of daily curling-themed browser games and word puzzles. Play Connections, Crossword, Memory Cards, Spelling Bee, Trivia, and Wordle.">
+  <meta name="theme-color" content="#050B14">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ice-arena-backdrop" aria-hidden="true">
+    <div class="ice-grain-overlay"></div>
+    <div class="curling-house-svg-wrap">
+      <svg class="house-graphic" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="400" cy="400" r="380" stroke="rgba(30, 96, 213, 0.28)" stroke-width="60" />
+        <circle cx="400" cy="400" r="260" stroke="rgba(255, 255, 255, 0.12)" stroke-width="50" />
+        <circle cx="400" cy="400" r="160" stroke="rgba(230, 39, 68, 0.32)" stroke-width="50" />
+        <circle cx="400" cy="400" r="50" fill="rgba(30, 96, 213, 0.45)" stroke="rgba(255, 255, 255, 0.6)" stroke-width="4" />
+        <line x1="400" y1="0" x2="400" y2="800" stroke="rgba(255, 255, 255, 0.2)" stroke-width="3" stroke-dasharray="8 8" />
+        <line x1="0" y1="400" x2="800" y2="400" stroke="rgba(255, 255, 255, 0.2)" stroke-width="3" />
+        <path d="M120 750 C 220 580, 290 460, 400 400" stroke="rgba(77, 238, 234, 0.35)" stroke-width="3" stroke-dasharray="6 6" />
+      </svg>
+    </div>
+  </div>
+
+  <main class="hub-wrapper">
+    <header class="brand-header">
+      <a href="#" id="brand-logo-link" class="brand-badge-card" aria-label="Visit Curling Games on Instagram" target="_blank" rel="noopener noreferrer">
+        <div class="stone-crest-wrap">
+          <img class="profile-logo" src="logo.png" alt="Curling Games logo">
+          <span class="crest-shine"></span>
+        </div>
+        <div class="brand-headings">
+          <div class="brand-meta-bar">
+            <span class="sheet-status-pill">DAILY PUZZLES</span>
+            <span class="insta-handle-hint">@tileworks_studio ↗</span>
+          </div>
+          <h1 class="hub-title">CURLING GAMES</h1>
+          <p class="hub-subtitle">Daily Word & Puzzle Collection</p>
+        </div>
+      </a>
+    </header>
+
+    <div class="view-slider" id="view-viewport">
+      <section class="hub-view view-games active" id="view-games" aria-labelledby="games-heading" role="region">
+        <h2 id="games-heading" class="sr-only">Curling Games List</h2>
+        
+        <div class="game-cards-stack">
+          <a href="#" class="game-card" data-game="connections" aria-label="Play Connections: Find four groups of four related items">
+            <div class="game-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-game-svg">
+                <line x1="12" y1="12" x2="32" y2="12" stroke="#4DEEEA" stroke-width="2.5" stroke-dasharray="3 3"/>
+                <line x1="32" y1="12" x2="32" y2="32" stroke="#4DEEEA" stroke-width="2.5" stroke-dasharray="3 3"/>
+                <line x1="32" y1="32" x2="12" y2="32" stroke="#4DEEEA" stroke-width="2.5" stroke-dasharray="3 3"/>
+                <line x1="12" y1="32" x2="12" y2="12" stroke="#4DEEEA" stroke-width="2.5" stroke-dasharray="3 3"/>
+                <circle cx="12" cy="12" r="6.5" fill="#FF3856" stroke="#FFFFFF" stroke-width="2" />
+                <circle cx="32" cy="12" r="6.5" fill="#1E60D5" stroke="#FFFFFF" stroke-width="2" />
+                <circle cx="12" cy="32" r="6.5" fill="#1E60D5" stroke="#FFFFFF" stroke-width="2" />
+                <circle cx="32" cy="32" r="6.5" fill="#FF3856" stroke="#FFFFFF" stroke-width="2" />
+                <circle cx="22" cy="22" r="3" fill="#4DEEEA" />
+              </svg>
+            </div>
+            <div class="game-details">
+              <div class="game-title-row">
+                <span class="game-name">Connections</span>
+                <span class="game-badge">Groups</span>
+              </div>
+              <p class="game-desc">Find four groups of four related items</p>
+            </div>
+            <div class="action-cell">
+              <span class="play-btn-pill">Play</span>
+            </div>
+          </a>
+
+          <a href="#" class="game-card" data-game="crossword" aria-label="Play Crossword: Solve the daily curling crossword grid">
+            <div class="game-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-game-svg">
+                <rect x="6" y="8" width="10" height="10" rx="2.5" fill="rgba(255,255,255,0.1)" stroke="#FFFFFF" stroke-width="2"/>
+                <rect x="18" y="8" width="10" height="10" rx="2.5" fill="#FF3856" stroke="#FFFFFF" stroke-width="2"/>
+                <rect x="30" y="8" width="10" height="10" rx="2.5" fill="rgba(255,255,255,0.1)" stroke="#FFFFFF" stroke-width="2"/>
+                <rect x="18" y="20" width="10" height="10" rx="2.5" fill="#1E60D5" stroke="#FFFFFF" stroke-width="2"/>
+                <rect x="18" y="32" width="10" height="10" rx="2.5" fill="rgba(255,255,255,0.1)" stroke="#FFFFFF" stroke-width="2"/>
+                <rect x="30" y="20" width="10" height="10" rx="2.5" fill="rgba(255,255,255,0.1)" stroke="#FFFFFF" stroke-width="2"/>
+                <path d="M21 14 L25 14" stroke="#FFF" stroke-width="2" stroke-linecap="round"/>
+                <path d="M23 23 L23 27" stroke="#FFF" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="game-details">
+              <div class="game-title-row">
+                <span class="game-name">Crossword</span>
+                <span class="game-badge">Daily Mini</span>
+              </div>
+              <p class="game-desc">Solve the daily curling crossword grid</p>
+            </div>
+            <div class="action-cell">
+              <span class="play-btn-pill">Play</span>
+            </div>
+          </a>
+
+          <a href="#" class="game-card" data-game="memory" aria-label="Play Memory Cards: Match all pairs of curling symbols">
+            <div class="game-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-game-svg">
+                <rect x="7" y="10" width="18" height="26" rx="4" transform="rotate(-9 7 10)" fill="#111B28" stroke="#4DEEEA" stroke-width="2"/>
+                <circle cx="15" cy="22" r="4.5" fill="#FF3856"/>
+                <rect x="18" y="8" width="18" height="26" rx="4" transform="rotate(7 18 8)" fill="#1E293B" stroke="#FFFFFF" stroke-width="2"/>
+                <ellipse cx="28" cy="22" rx="5.5" ry="3.5" fill="#4DEEEA"/>
+                <path d="M26 21 L30 21" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="game-details">
+              <div class="game-title-row">
+                <span class="game-name">Memory Cards</span>
+                <span class="game-badge">Matching</span>
+              </div>
+              <p class="game-desc">Match all pairs of curling symbols</p>
+            </div>
+            <div class="action-cell">
+              <span class="play-btn-pill">Play</span>
+            </div>
+          </a>
+
+          <a href="#" class="game-card" data-game="spellingBee" aria-label="Play Spelling Bee: Make words using the center letter">
+            <div class="game-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-game-svg">
+                <polygon points="22,14 29,18 29,26 22,30 15,26 15,18" fill="#FFD13B" stroke="#0C1726" stroke-width="2"/>
+                <polygon points="22,2 29,6 29,14 22,18 15,14 15,6" fill="rgba(255,255,255,0.15)" stroke="#FFF" stroke-width="1.5"/>
+                <polygon points="33,20 40,24 40,32 33,36 26,32 26,24" fill="rgba(255,255,255,0.15)" stroke="#FFF" stroke-width="1.5"/>
+                <polygon points="11,20 18,24 18,32 11,36 4,32 4,24" fill="rgba(255,255,255,0.15)" stroke="#FFF" stroke-width="1.5"/>
+                <circle cx="22" cy="22" r="2" fill="#0C1726"/>
+              </svg>
+            </div>
+            <div class="game-details">
+              <div class="game-title-row">
+                <span class="game-name">Spelling Bee</span>
+                <span class="game-badge">Word Craft</span>
+              </div>
+              <p class="game-desc">Form words of 4+ letters with the center letter</p>
+            </div>
+            <div class="action-cell">
+              <span class="play-btn-pill">Play</span>
+            </div>
+          </a>
+
+          <a href="#" class="game-card" data-game="trivia" aria-label="Play Trivia: Test your curling knowledge">
+            <div class="game-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-game-svg">
+                <ellipse cx="22" cy="31" rx="14" ry="7" fill="#0c1726" stroke="#4DEEEA" stroke-width="2"/>
+                <ellipse cx="22" cy="27" rx="12" ry="5.5" fill="#1E60D5" stroke="#FFFFFF" stroke-width="1.5"/>
+                <path d="M18 14 C18 9, 26 9, 26 13 C26 17, 22 18, 22 21" stroke="#FF3856" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="22" cy="25" r="1.5" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <div class="game-details">
+              <div class="game-title-row">
+                <span class="game-name">Trivia</span>
+                <span class="game-badge">Quiz</span>
+              </div>
+              <p class="game-desc">Test your curling rules and history knowledge</p>
+            </div>
+            <div class="action-cell">
+              <span class="play-btn-pill">Play</span>
+            </div>
+          </a>
+
+          <a href="#" class="game-card" data-game="wordle" aria-label="Play Wordle: Guess the 5-letter curling word in 6 attempts">
+            <div class="game-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-game-svg">
+                <rect x="5" y="15" width="8" height="14" rx="2" fill="#2ECC71" stroke="#FFFFFF" stroke-width="1.5"/>
+                <rect x="15" y="15" width="8" height="14" rx="2" fill="#FFD13B" stroke="#FFFFFF" stroke-width="1.5"/>
+                <rect x="25" y="15" width="8" height="14" rx="2" fill="#334155" stroke="#FFFFFF" stroke-width="1.5"/>
+                <rect x="35" y="15" width="8" height="14" rx="2" fill="#2ECC71" stroke="#FFFFFF" stroke-width="1.5"/>
+                <path d="M7 15 L7 11 L11 11" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="game-details">
+              <div class="game-title-row">
+                <span class="game-name">Wordle</span>
+                <span class="game-badge">5 Letters</span>
+              </div>
+              <p class="game-desc">Guess the 5-letter word in 6 attempts</p>
+            </div>
+            <div class="action-cell">
+              <span class="play-btn-pill">Play</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="donate-trigger-section">
+          <button type="button" class="donate-main-btn" id="btn-open-donate" aria-haspopup="true" aria-expanded="false" aria-controls="view-donations">
+            <div class="donate-btn-content">
+              <span class="donate-stone-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </span>
+              <div class="donate-btn-text">
+                <span class="donate-primary-title">Support Curling Games</span>
+                <span class="donate-sub-title">Help keep games free, fast, and ad-free</span>
+              </div>
+              <span class="donate-action-chip">Support ↗</span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <section class="hub-view view-donations" id="view-donations" aria-labelledby="donations-heading" role="region" hidden>
+        <div class="donation-card-container">
+          <button type="button" class="back-nav-btn" id="btn-back-games" aria-label="Back to game collection">
+            <svg class="back-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Games</span>
+          </button>
+
+          <div class="donation-welcome-panel">
+            <div class="curling-broom-badge" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" class="broom-icon">
+                <circle cx="20" cy="20" r="18" fill="rgba(77, 238, 234, 0.15)" stroke="#4DEEEA" stroke-width="2"/>
+                <path d="M12 28 L24 16 M24 16 L28 12 M20 28 L28 20" stroke="#FF3856" stroke-width="3" stroke-linecap="round"/>
+                <rect x="8" y="27" width="8" height="5" rx="1.5" transform="rotate(-45 8 27)" fill="#FFD13B"/>
+              </svg>
+            </div>
+            <h2 id="donations-heading" class="donation-headline">Support Curling Games</h2>
+            <p class="donation-copy">
+              Curling Games is completely free to play without ads. Your support helps cover server costs, web hosting, and daily puzzle creation.
+            </p>
+          </div>
+
+          <div class="donation-tiers-grid">
+            <a href="#" class="tier-card" data-donation="one" aria-label="Donate $1: Tip towards server hosting">
+              <div class="tier-cost-badge">$1</div>
+              <div class="tier-info">
+                <span class="tier-title">Tip</span>
+                <span class="tier-desc">Helps cover ongoing hosting and server costs</span>
+              </div>
+              <div class="tier-arrow" aria-hidden="true">↗</div>
+            </a>
+
+            <a href="#" class="tier-card tier-highlight" data-donation="two" aria-label="Donate $2: Supporter tier for daily puzzle creation">
+              <div class="tier-tag">POPULAR</div>
+              <div class="tier-cost-badge">$2</div>
+              <div class="tier-info">
+                <span class="tier-title">Supporter</span>
+                <span class="tier-desc">Supports daily puzzle design and maintenance</span>
+              </div>
+              <div class="tier-arrow" aria-hidden="true">↗</div>
+            </a>
+
+            <a href="#" class="tier-card" data-donation="three" aria-label="Donate $3: Champion tier for long-term development">
+              <div class="tier-cost-badge">$3</div>
+              <div class="tier-info">
+                <span class="tier-title">Champion</span>
+                <span class="tier-desc">Sustains long-term development for all games</span>
+              </div>
+              <div class="tier-arrow" aria-hidden="true">↗</div>
+            </a>
+          </div>
+
+          <div class="donation-footer-note">
+            <p>Direct, secure contribution. No account or sign-in required.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="hub-footer">
+      <div class="footer-separator" aria-hidden="true"></div>
+      <div class="footer-content">
+        <span>Curling Games</span>
+        <span class="dot-separator" aria-hidden="true">•</span>
+        <span>Daily Puzzles</span>
+        <span class="dot-separator" aria-hidden="true">•</span>
+        <span>Free to Play</span>
+      </div>
+    </footer>
+  </main>
+
+  <div id="hub-toast" class="hub-toast" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast-indicator" aria-hidden="true"></div>
+    <span id="toast-message" class="toast-message">Opening link...</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
