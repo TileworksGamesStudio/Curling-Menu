@@ -75,7 +75,7 @@ const CONFIG = {
     {
       id: "spelling-bee",
       name: "Spelling Bee",
-      url: "https://tileworksgamesstudio.github.io/Curling-Spellin",
+      url: "https://tileworksgamesstudio.github.io/Curling-Spelling",
       enabled: true,
       icon: "spelling-bee"
     },
