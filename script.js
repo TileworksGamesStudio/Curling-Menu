@@ -34,7 +34,7 @@ const CONFIG = {
       id: "crossword",
       name: "Crossword",
       url: "https://tileworksgamesstudio.github.io/Curling-Crossword/",
-      enabled: true,
+      enabled: false,
       icon: "crossword"
     },
     {
