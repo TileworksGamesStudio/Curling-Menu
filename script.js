@@ -11,7 +11,7 @@
     { id: "connections", name: "Connections", url: "https://tileworksgamesstudio.github.io/Curling-Connections/", enabled: true, icon: "nodes" },
     { id: "trivia", name: "Trivia", url: "https://tileworksgamesstudio.github.io/Curling-Trivia/", enabled: true, icon: "help" },
     { id: "hangman", name: "Hangman", url: "https://tileworksgamesstudio.github.io/Curling-Hangman/", enabled: true, icon: "text" },
-    { id: "specs", name: "Match", url: "https://tileworksgamesstudio.github.io/Curling-Cards/", enabled: true, icon: "check" },
+    { id: "specs", name: "Cards", url: "https://tileworksgamesstudio.github.io/Curling-Cards/", enabled: true, icon: "check" },
     { id: "memory", name: "Memory", url: "https://tileworksgamesstudio.github.io/Curling-Memory/", enabled: true, icon: "cards" },
     { id: "spelling-bee", name: "Letters", url: "https://tileworksgamesstudio.github.io/Curling-Spelling", enabled: true, icon: "hex" },
     { id: "wordle", name: "Wordle", url: "https://tileworksgamesstudio.github.io/Curling-Wordle/", enabled: true, icon: "rows" },
