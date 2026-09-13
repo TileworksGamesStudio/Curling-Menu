@@ -1,35 +1,56 @@
 /* ==========================================================================
-   TILEWORKS CURLING GAMES — SOLID GLASS ARCHITECTURE
+   ADVANCED LIGHT NEO-BRUTALIST CANADIAN CURLING SPORT DESIGN SYSTEM
    ========================================================================== */
 
 :root {
-  /* Curling Ice Palette */
-  --ice-base: #f0f6fb;
-  --ice-frost-panel: rgba(235, 244, 252, 0.68);
-  --glass-border: rgba(11, 34, 56, 0.16);
-  --glass-highlight: rgba(255, 255, 255, 0.95);
+  /* Ice Palette Foundation */
+  --ice-bg-primary: #f8fcff;
+  --ice-bg-secondary: #eef7fc;
+  --ice-sheet-white: #ffffff;
+  --ice-pale-blue: #dceefb;
+  --ice-glaze: rgba(248, 252, 255, 0.82);
+  --ice-glass-border: rgba(11, 28, 45, 0.16);
 
-  --curling-blue: #0b2238;
-  --curling-deep: #071726;
+  /* Very Dark Blue Structure (Curling Lines & Scoring Hardware) */
+  --dark-marking-blue: #0b1c2d;
+  --dark-slate-blue: #162b40;
+  --mid-ice-blue: #4d6880;
+  --subtle-marking-blue: #7d96ae;
+  --ice-line-blue: #235882;
 
-  /* Solid Glass Physics & Elevation */
-  --glass-blur: blur(20px) saturate(160%);
-  --glass-radius: 18px;
-  --panel-shadow: 0 12px 30px rgba(11, 34, 56, 0.08), 
-                  0 2px 6px rgba(11, 34, 56, 0.04),
-                  inset 0 1px 1.5px var(--glass-highlight),
-                  inset 0 -1px 2px rgba(11, 34, 56, 0.06);
+  /* Canadian Red Identity */
+  --canadian-red: #d71920;
+  --canadian-red-deep: #b51218;
+  --canadian-red-soft: rgba(215, 25, 32, 0.1);
 
-  /* Exact 0.7s Transition Timing */
-  --fall-duration: 700ms;
-  --ease-fall: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-elastic: cubic-bezier(0.28, 1.25, 0.36, 1);
-  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Vivid Stone Colours */
+  --stone-red: #ff2b30;
+  --stone-red-halo: rgba(255, 43, 48, 0.22);
+  --stone-yellow: #ffc400;
+  --stone-yellow-bright: #ffd83d;
+  --stone-yellow-halo: rgba(255, 196, 0, 0.25);
+
+  /* Borders & Advanced Neo-Brutalist Shadows */
+  --border-width: 2px;
+  --border-style: solid;
+  --border-color: var(--dark-marking-blue);
+  --radius-xs: 6px;
+  --radius-sm: 9px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --shadow-depth: 4px;
+  --shadow: 0 var(--shadow-depth) 0 var(--dark-marking-blue);
+  --shadow-hover: 0 calc(var(--shadow-depth) + 1.5px) 0 var(--dark-marking-blue);
+  --shadow-active: 0 1px 0 var(--dark-marking-blue);
+  --shadow-sheet: 0 -8px 32px rgba(11, 28, 45, 0.16);
+  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(11, 28, 45, 0.05);
+
+  /* Dimensions & Timing */
+  --max-width: 448px;
+  --transition-speed: 140ms;
+  --transition-smooth: 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* ==========================================================================
-   RESET & FOUNDATION
-   ========================================================================== */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -38,598 +59,1098 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
-  background-color: var(--ice-base);
-  color: var(--curling-blue);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* Dynamic Ice Canvas */
-.ice-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Arena Lighting Overlay */
-.arena-lighting-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at var(--light-x, 50%) var(--light-y, 35%),
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(240, 246, 251, 0.15) 45%,
-    rgba(215, 230, 244, 0.25) 100%
-  );
-  mix-blend-mode: soft-light;
-  transition: background 0.4s ease-out;
-}
-
-/* Seamless Smooth Page Transition Curtain */
-.transition-curtain {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: radial-gradient(circle at center, rgba(235, 244, 252, 0.92) 0%, rgba(240, 246, 251, 0.98) 100%);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.transition-curtain.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* Master Viewport */
-.app-viewport {
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--ice-bg-primary);
+  background-image: 
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(220, 238, 251, 0.6) 0%, rgba(248, 252, 255, 0) 70%),
+    linear-gradient(180deg, #f8fcff 0%, #edf6fc 100%);
+  color: var(--dark-marking-blue);
+  line-height: 1.4;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 3.5vw, 24px);
+  padding-top: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-left, 0px));
+  padding-right: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-right, 0px));
   position: relative;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 16px)
-           env(safe-area-inset-bottom, 16px) env(safe-area-inset-left, 16px);
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-/* Camera glides forward smoothly into the opened doorway */
-.app-viewport.camera-advance {
-  transform: perspective(1200px) translate3d(0, 10px, 60px);
-}
-
-.hub-container {
-  width: 100%;
-  max-width: 420px;
-  height: 100%;
-  max-height: 820px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 14px 16px;
-  perspective: 1400px;
-  perspective-origin: 50% 45%;
-}
-
-/* Hub Header */
-.hub-header {
-  flex-shrink: 0;
-  text-align: center;
-  margin-bottom: 12px;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.5s ease, transform 0.5s var(--ease-out-quint);
-}
-
-.hub-header.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.arena-tag {
-  display: inline-block;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--curling-blue);
-  opacity: 0.6;
-  margin-bottom: 2px;
-}
-
-.hub-title {
-  font-size: 1.18rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--curling-blue);
+  overflow-x: hidden;
 }
 
 /* ==========================================================================
-   PERMANENT 3x3 GRID & APERTURE SLOTS
+   RINK ATMOSPHERE & BACKGROUND LIGHTING
    ========================================================================== */
 
-.grid-wrapper {
-  width: 100%;
-  flex: 0 1 auto;
-  max-height: 480px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1400px;
-  overflow: visible;
+.rink-atmosphere {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
-.games-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 12px;
-  aspect-ratio: 1 / 1.05;
-  transform-style: preserve-3d;
-  overflow: visible;
+/* Painted House (Curling Rings) Ice Watermark */
+.ice-house-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  width: 540px;
+  height: 540px;
+  opacity: 0.16;
+  filter: blur(0.5px);
 }
 
-/* 3D Depth Slot */
-.grid-slot {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  perspective: 1200px;
-  transform-style: preserve-3d;
-  border-radius: var(--glass-radius);
-  overflow: visible;
+.ice-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.grid-slot.empty {
+.ring-12ft {
+  width: 520px;
+  height: 520px;
+  border: 18px solid var(--ice-line-blue);
+  background-color: rgba(35, 88, 130, 0.03);
+}
+
+.ring-8ft {
+  width: 350px;
+  height: 350px;
+  border: 14px solid var(--ice-sheet-white);
+  background-color: transparent;
+}
+
+.ring-4ft {
+  width: 190px;
+  height: 190px;
+  border: 14px solid var(--canadian-red);
+  background-color: rgba(215, 25, 32, 0.04);
+}
+
+.ring-button {
+  width: 50px;
+  height: 50px;
+  background-color: var(--ice-sheet-white);
+  border: 3px solid var(--dark-marking-blue);
+}
+
+.ice-tee-line {
+  position: absolute;
+  top: 50%;
+  left: -200px;
+  right: -200px;
+  height: 2px;
+  background-color: var(--canadian-red);
+  opacity: 0.7;
+}
+
+.ice-centre-line {
+  position: absolute;
+  top: -200px;
+  bottom: -200px;
+  left: 50%;
+  width: 2px;
+  background-color: var(--dark-marking-blue);
+  opacity: 0.6;
+}
+
+/* Rink Light Reflections */
+.rink-reflection {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.45;
+  animation: rinkLightFloat 18s ease-in-out infinite alternate;
+}
+
+.reflection-1 {
+  width: 480px;
+  height: 480px;
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(220, 238, 251, 0.8) 0%, rgba(248, 252, 255, 0) 70%);
+}
+
+.reflection-2 {
+  width: 540px;
+  height: 540px;
+  bottom: -15%;
+  right: -15%;
+  background: radial-gradient(circle, rgba(215, 25, 32, 0.06) 0%, rgba(255, 196, 0, 0.04) 35%, rgba(248, 252, 255, 0) 70%);
+  animation-duration: 24s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes rinkLightFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(40px, 30px) scale(1.08);
+  }
+}
+
+.rink-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 110px rgba(11, 28, 45, 0.05);
+}
+
+/* Floating Ambient Curling Motifs Stage */
+.curling-ambient-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
   pointer-events: none;
 }
 
-/* The Chasm/Aperture opened in the floor when panel falls */
-.grid-slot.is-open::before {
-  content: "";
+.floating-curling-item {
   position: absolute;
-  inset: 0;
-  border-radius: var(--glass-radius);
-  background: radial-gradient(
-    circle at 50% 40%,
-    rgba(4, 15, 26, 0.72) 0%,
-    rgba(7, 23, 38, 0.52) 55%,
-    rgba(11, 34, 56, 0.15) 100%
-  );
-  box-shadow: inset 0 12px 28px rgba(0, 0, 0, 0.6),
-              inset 0 0 1px rgba(255, 255, 255, 0.4);
-  animation: chasmOpen 0.55s ease forwards;
-  z-index: 1;
+  will-change: transform, opacity;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes chasmOpen {
-  0% {
+.floating-curling-item svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   HUB WRAPPER & LAYOUT
+   ========================================================================== */
+
+.hub-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: var(--max-width);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2.8vh, 20px);
+  margin: auto;
+}
+
+/* ==========================================================================
+   CHAMPIONSHIP HEADER & SCOREBOARD
+   ========================================================================== */
+
+.hub-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.header-championship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px;
+  background-color: var(--ice-sheet-white);
+  border: 1.5px solid var(--dark-marking-blue);
+  border-radius: 30px;
+  box-shadow: 0 2px 0 var(--dark-marking-blue);
+  margin-bottom: 6px;
+}
+
+.badge-leaf {
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-maple-leaf {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.badge-text {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--dark-marking-blue);
+  text-transform: uppercase;
+}
+
+.badge-stone-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2px;
+}
+
+.stone-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--dark-marking-blue);
+}
+
+.stone-dot.red-dot {
+  background-color: var(--stone-red);
+}
+
+.stone-dot.yellow-dot {
+  background-color: var(--stone-yellow);
+}
+
+.title-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hub-title {
+  font-size: clamp(1.6rem, 5.2vw, 2.05rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: var(--dark-marking-blue);
+  text-transform: none;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Subtle Ice-Line Light Sweep Across Title */
+.title-light-sweep {
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  transform: skewX(-25deg);
+  pointer-events: none;
+  animation: titleSweep 9s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+@keyframes titleSweep {
+  0%, 75% {
+    left: -50%;
     opacity: 0;
-    transform: scale(0.96);
   }
-  100% {
+  80% {
     opacity: 1;
+  }
+  90%, 100% {
+    left: 130%;
+    opacity: 0;
+  }
+}
+
+/* Scoreboard Divider */
+.scoreboard-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 260px;
+  margin-top: 4px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1.5px;
+  background-color: var(--subtle-marking-blue);
+  opacity: 0.5;
+}
+
+.divider-marker {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--dark-marking-blue);
+}
+
+.divider-marker.red-stone-marker {
+  background-color: var(--stone-red);
+}
+
+.divider-marker.yellow-stone-marker {
+  background-color: var(--stone-yellow);
+}
+
+.divider-center {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--mid-ice-blue);
+}
+
+.hub-subtitle {
+  font-size: 0.88rem;
+  color: var(--mid-ice-blue);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   GAME GRID (3x3) & ICE TILES
+   ========================================================================== */
+
+.hub-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 2.6vw, 14px);
+  width: 100%;
+}
+
+.grid-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+}
+
+/* Tactile Ice Game Tile */
+.tile {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  min-height: 48px;
+  min-width: 48px;
+  background: linear-gradient(175deg, var(--ice-sheet-white) 0%, #f3f9fd 100%);
+  border: var(--border-width) var(--border-style) var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow), var(--shadow-glass);
+  text-decoration: none;
+  color: var(--dark-marking-blue);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform var(--transition-speed) cubic-bezier(0.2, 0.9, 0.3, 1),
+              box-shadow var(--transition-speed) cubic-bezier(0.2, 0.9, 0.3, 1),
+              background var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+
+/* Subtle Ice-Reflective Top Highlight */
+.tile::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+/* Tactile Hover: Subtle Rise, crisp shadow, warm edge illumination */
+@media (hover: hover) {
+  .tile:hover {
+    background: linear-gradient(175deg, #ffffff 0%, #ebf5fc 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover), 0 0 14px var(--canadian-red-soft);
+    border-color: var(--dark-slate-blue);
+  }
+}
+
+/* Tactile Stone Interaction Impact: Compression with solid equipment feedback */
+.tile:active {
+  transform: translateY(calc(var(--shadow-depth) - 1.5px)) scale(0.985);
+  box-shadow: var(--shadow-active);
+  background: #edf6fd;
+}
+
+.tile:focus-visible {
+  outline: 2.5px solid var(--canadian-red);
+  outline-offset: 3px;
+}
+
+.tile-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-marking-blue);
+  transition: transform var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.tile:hover .tile-icon {
+  color: var(--canadian-red);
+  transform: scale(1.06);
+}
+
+.tile-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.tile-label {
+  font-size: clamp(0.72rem, 2.2vw, 0.82rem);
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--dark-marking-blue);
+}
+
+/* Empty Slot */
+.grid-cell.is-empty {
+  border: var(--border-width) dashed var(--subtle-marking-blue);
+  border-radius: var(--radius-md);
+  background-color: rgba(220, 238, 251, 0.3);
+}
+
+/* ==========================================================================
+   COMPANION UTILITY ROW (Instagram, Settings, Donate)
+   ========================================================================== */
+
+.utility-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.utility-tile {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(175deg, var(--ice-sheet-white) 0%, #f2f8fd 100%);
+  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  color: var(--dark-marking-blue);
+  cursor: pointer;
+  text-decoration: none;
+  transform: translateY(0);
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              background-color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Stone Color Indicator Ring Corner */
+.tile-stone-indicator {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--dark-marking-blue);
+}
+
+.tile-stone-indicator.red {
+  background-color: var(--stone-red);
+}
+
+.tile-stone-indicator.yellow {
+  background-color: var(--stone-yellow);
+}
+
+@media (hover: hover) {
+  .utility-tile:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .utility-tile[data-stone="red"]:hover {
+    box-shadow: var(--shadow-hover), 0 0 12px var(--stone-red-halo);
+    border-color: var(--canadian-red);
+  }
+
+  .utility-tile[data-stone="yellow"]:hover {
+    box-shadow: var(--shadow-hover), 0 0 12px var(--stone-yellow-halo);
+    border-color: #d19f00;
+  }
+}
+
+.utility-tile:active {
+  transform: translateY(calc(var(--shadow-depth) - 1.5px)) scale(0.97);
+  box-shadow: var(--shadow-active);
+}
+
+.utility-tile:focus-visible {
+  outline: 2.5px solid var(--canadian-red);
+  outline-offset: 3px;
+}
+
+.utility-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.utility-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* 1. Camera Flash Animation */
+.camera-flash-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 75%);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: cameraFlashBurst 6.8s cubic-bezier(0.12, 0.85, 0.35, 1) infinite;
+}
+
+.camera-flash-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+  animation: cameraFlashRing 6.8s ease-out infinite;
+}
+
+@keyframes cameraFlashBurst {
+  0%, 86%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  88% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  90% {
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  92% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  96% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+@keyframes cameraFlashRing {
+  0%, 86%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  92% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.25);
+  }
+  96% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.6);
+  }
+}
+
+/* 2. Gear Turning Slowly */
+.svg-gear {
+  transform-origin: center center;
+  animation: slowGearTurn 18s linear infinite;
+}
+
+@keyframes slowGearTurn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 3. Beating Heart with Canadian Red */
+.svg-heart {
+  transform-origin: center center;
+  animation: organicHeartbeat 3.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  color: var(--dark-marking-blue);
+  transition: color var(--transition-speed) ease;
+}
+
+.tile-donate:hover .svg-heart {
+  color: var(--canadian-red);
+}
+
+@keyframes organicHeartbeat {
+  0%, 65%, 100% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.18);
+  }
+  75% {
+    transform: scale(1.04);
+  }
+  82% {
+    transform: scale(1.15);
+  }
+  90% {
     transform: scale(1);
   }
 }
 
+/* Body Animation Toggle State */
+body.animations-disabled .camera-flash-core,
+body.animations-disabled .camera-flash-ring,
+body.animations-disabled .svg-gear,
+body.animations-disabled .svg-heart,
+body.animations-disabled .title-light-sweep,
+body.animations-disabled .rink-reflection {
+  animation: none !important;
+}
+
 /* ==========================================================================
-   SOLID FROSTED GLASS PANELS
+   MODAL BACKDROP & ICE-GLASS BOTTOM SHEETS
    ========================================================================== */
 
-.glass-tile {
-  position: relative;
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 28, 45, 0.45);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 90;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.modal-backdrop.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Secondary Material: Refined Ice-Glass Panel with Neo-Brutalist Border */
+.modal-sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 100%);
   width: 100%;
-  height: 100%;
+  max-width: var(--max-width);
+  background: var(--ice-glaze);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  border-left: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  border-right: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sheet);
+  padding: 16px 22px calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  visibility: hidden;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), visibility 280ms ease;
+}
+
+.modal-sheet.is-open {
+  transform: translate(-50%, 0);
+  visibility: visible;
+}
+
+.sheet-handle {
+  width: 42px;
+  height: 4.5px;
+  background-color: var(--subtle-marking-blue);
+  border-radius: 3px;
+  margin: 0 auto 14px;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sheet-header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sheet-curling-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--canadian-red);
+  border: 1.5px solid var(--dark-marking-blue);
+}
+
+.sheet-title {
+  font-size: 1.25rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: var(--dark-marking-blue);
+}
+
+.sheet-close {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  background-color: var(--ice-sheet-white);
+  box-shadow: 0 2px 0 var(--dark-marking-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--dark-marking-blue);
+  padding: 0;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+}
+
+.sheet-close:hover {
+  background-color: var(--ice-pale-blue);
+}
+
+.sheet-close:active {
+  transform: translateY(1.5px);
+  box-shadow: 0 0.5px 0 var(--dark-marking-blue);
+}
+
+.sheet-close svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+/* Settings Controls */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(11, 28, 45, 0.1);
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+}
+
+.setting-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-label {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--dark-marking-blue);
+}
+
+.setting-desc {
+  font-size: 0.78rem;
+  color: var(--mid-ice-blue);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Custom Neo-Brutalist Toggle with Stone Feeling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--ice-pale-blue);
+  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  border-radius: 30px;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--dark-marking-blue);
+  border-radius: 50%;
+  transition: transform var(--transition-speed) cubic-bezier(0.3, 1.25, 0.4, 1), background-color var(--transition-speed) ease;
+}
+
+.switch input:checked + .slider {
+  background-color: var(--ice-sheet-white);
+  border-color: var(--dark-marking-blue);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
+  background-color: var(--canadian-red);
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2.5px solid var(--canadian-red);
+  outline-offset: 2px;
+}
+
+/* Donate Sheet Details */
+.modal-donate .sheet-header {
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.modal-donate .sheet-close {
+  margin-left: auto;
+}
+
+.donate-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background-color: var(--canadian-red-soft);
+  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--canadian-red);
+  flex-shrink: 0;
+}
+
+.svg-donate-leaf {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.donate-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.donate-intro {
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--dark-marking-blue);
+}
+
+.donate-sub {
+  font-size: 0.84rem;
+  line-height: 1.42;
+  color: var(--mid-ice-blue);
+  font-weight: 500;
+}
+
+/* Call to Action: Canadian Red Championship Button */
+.donate-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 13px 20px;
+  background-color: var(--canadian-red);
+  color: var(--ice-sheet-white);
+  text-decoration: none;
+  font-size: 0.98rem;
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              background-color var(--transition-speed) ease;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+}
+
+@media (hover: hover) {
+  .donate-action-btn:hover {
+    background-color: var(--canadian-red-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--dark-marking-blue), 0 0 16px var(--stone-red-halo);
+  }
+}
+
+.donate-action-btn:active {
+  transform: translateY(2px);
+  box-shadow: var(--shadow-active);
+}
+
+.donate-action-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  fill: none;
+}
+
+.donate-appreciation {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--mid-ice-blue);
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.hub-footer {
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 10px 6px;
-  text-decoration: none;
-  color: var(--curling-blue);
-  border-radius: var(--glass-radius);
-  background: var(--ice-frost-panel);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--panel-shadow);
-  overflow: hidden;
-  cursor: pointer;
-  outline: none;
-  z-index: 5;
-  transform: translateZ(0);
-  transition: transform 0.2s cubic-bezier(0.3, 0, 0, 1),
-              box-shadow 0.2s ease,
-              border-color 0.2s ease;
-  will-change: transform, opacity;
-  opacity: 0;
-  transform: translateY(30px) scale(0.92);
+  gap: 6px;
+  padding-top: 2px;
 }
 
-/* Crisp Glass Bevel Glare Tracking */
-.glass-tile::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  background: radial-gradient(
-    circle at var(--shine-x, 50%) var(--shine-y, 50%),
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(235, 245, 255, 0.15) 35%,
-    transparent 65%
-  );
-  opacity: 0.7;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  transition: transform 0.3s ease-out;
-  transform: rotate(15deg);
+.footer-rink-line {
+  width: 48px;
+  height: 2px;
+  background-color: var(--subtle-marking-blue);
+  opacity: 0.4;
+  border-radius: 1px;
 }
 
-/* Glass Edge Light Beam */
-.glass-tile::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 200%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.95) 50%,
-    transparent 100%
-  );
-  opacity: 0.7;
-  pointer-events: none;
-  animation: glassEdgeDrift 6.5s infinite linear;
-}
-
-@keyframes glassEdgeDrift {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(50%); }
-}
-
-.tile-icon-wrap {
-  width: 38px;
-  height: 38px;
-  display: flex;
+.footer-link {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 6px;
-  color: var(--curling-blue);
-  transition: transform 0.2s ease;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--mid-ice-blue);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
-.tile-icon-wrap svg {
+.footer-leaf {
+  width: 12px;
+  height: 12px;
+  display: inline-flex;
+  color: var(--canadian-red);
+}
+
+.svg-footer-leaf {
   width: 100%;
   height: 100%;
-  stroke: var(--curling-blue);
 }
 
-.tile-name {
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--curling-blue);
-  text-align: center;
-  line-height: 1.15;
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 4px;
+.footer-link:hover {
+  color: var(--dark-marking-blue);
+  background-color: rgba(220, 238, 251, 0.45);
 }
 
-/* Hover & Active Feedback */
-.glass-tile:hover {
-  transform: translateY(-2px) scale(1.02);
-  border-color: rgba(11, 34, 56, 0.28);
-  box-shadow: 0 16px 36px rgba(11, 34, 56, 0.12),
-              0 4px 10px rgba(11, 34, 56, 0.05),
-              inset 0 1px 2px var(--glass-highlight);
-}
-
-.glass-tile:hover .tile-icon-wrap {
-  transform: scale(1.06);
-}
-
-.glass-tile:active {
-  transform: scale(0.96) translateY(2px);
-  box-shadow: 0 4px 12px rgba(11, 34, 56, 0.08),
-              inset 0 1px 1px rgba(11, 34, 56, 0.1);
-}
-
-.glass-tile:focus-visible {
-  outline: 2px solid var(--curling-blue);
+.footer-link:focus-visible {
+  outline: 2px solid var(--dark-marking-blue);
   outline-offset: 2px;
 }
 
 /* ==========================================================================
-   SOLID GLASS PANEL FALL-THROUGH ANIMATION (0.7s)
+   ACCESSIBILITY & REDUCED MOTION
    ========================================================================== */
 
-.glass-tile.is-falling-through {
-  pointer-events: none;
-  z-index: 100;
-  animation: solidPanelFallThrough var(--fall-duration) var(--ease-fall) forwards;
-}
-
-@keyframes solidPanelFallThrough {
-  0% {
-    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
-    opacity: 1;
-    box-shadow: var(--panel-shadow);
+@media (max-height: 580px) {
+  .hub-wrapper {
+    gap: 10px;
   }
-  
-  /* Unlatches & pushes backward under physical weight */
-  16% {
-    transform: translate3d(0, -6px, 14px) rotateX(-10deg) rotateY(3deg) scale(1.01);
-    opacity: 1;
-    box-shadow: 0 24px 44px rgba(11, 34, 56, 0.22);
+  .tile {
+    gap: 4px;
+    padding: 6px;
   }
-  
-  /* Slips backward through the page floor */
-  38% {
-    transform: translate3d(0, 60px, -140px) rotateX(42deg) rotateY(-6deg) rotateZ(2deg) scale(0.92);
-    opacity: 0.95;
-    box-shadow: 0 14px 28px rgba(7, 23, 38, 0.35);
+  .tile-icon {
+    width: 26px;
+    height: 26px;
   }
-  
-  /* Heavy free-fall tumbling through the subterranean depth */
-  68% {
-    transform: translate3d(0, 320px, -460px) rotateX(76deg) rotateY(-14deg) rotateZ(8deg) scale(0.72);
-    opacity: 0.65;
-    box-shadow: 0 6px 14px rgba(7, 23, 38, 0.2);
-  }
-  
-  /* 0.7s: Fully fallen through the floor */
-  100% {
-    transform: translate3d(0, 820px, -980px) rotateX(92deg) rotateY(-20deg) rotateZ(14deg) scale(0.35);
-    opacity: 0;
-    box-shadow: 0 0 0 transparent;
-  }
-}
-
-/* Other tiles push back and dim */
-.hub-container.has-selection .glass-tile:not(.is-falling-through) {
-  opacity: 0.35 !important;
-  transform: scale(0.96) translateZ(-20px) !important;
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  pointer-events: none;
-}
-
-/* Intro Entrance */
-.glass-tile.revealed {
-  animation: tileRiseThroughIce 0.62s var(--ease-out-quint) forwards;
-}
-
-@keyframes tileRiseThroughIce {
-  0% {
-    opacity: 0;
-    transform: translateY(38px) scale(0.9) rotateX(16deg);
-    filter: blur(6px);
-  }
-  70% {
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotateX(0deg);
-  }
-}
-
-/* ==========================================================================
-   SPACED INSTAGRAM BUTTON
-   ========================================================================== */
-
-.hub-footer {
-  flex-shrink: 0;
-  width: 100%;
-  margin-top: 24px;
-  margin-bottom: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-}
-
-.instagram-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  color: var(--curling-blue);
-  background: rgba(240, 246, 252, 0.7);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(11, 34, 56, 0.16);
-  box-shadow: 0 6px 18px rgba(11, 34, 56, 0.07),
-              inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
-  transition: transform 0.25s var(--ease-elastic),
-              background 0.2s ease,
-              border-color 0.2s ease,
-              box-shadow 0.2s ease;
-  outline: none;
-  cursor: pointer;
-}
-
-.instagram-action:hover {
-  transform: translateY(-2px) scale(1.12);
-  background: rgba(240, 246, 252, 0.95);
-  border-color: rgba(11, 34, 56, 0.32);
-  box-shadow: 0 10px 24px rgba(11, 34, 56, 0.14),
-              inset 0 1px 2px #fff;
-}
-
-.instagram-action:active {
-  transform: scale(0.92);
-}
-
-.instagram-action:focus-visible {
-  outline: 2px solid var(--curling-blue);
-  outline-offset: 3px;
-}
-
-.instagram-icon {
-  width: 21px;
-  height: 21px;
-  stroke: var(--curling-blue);
-  stroke-width: 2;
-  transition: transform 0.2s ease;
-}
-
-.instagram-action:hover .instagram-icon {
-  transform: scale(1.06);
-}
-
-/* ==========================================================================
-   CINEMATIC INTRO
-   ========================================================================== */
-
-.intro-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1000px;
-}
-
-.intro-overlay.dismissed {
-  display: none !important;
-}
-
-.logo-stage {
-  width: 220px;
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
-}
-
-.intro-logo {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 28px rgba(11, 34, 56, 0.18));
-}
-
-.logo-animate-in {
-  animation: logoSettleBounce 0.75s var(--ease-elastic) forwards;
-}
-
-.logo-animate-out {
-  animation: logoAdvanceExit 0.65s cubic-bezier(0.7, 0, 0.84, 0) forwards;
-}
-
-@keyframes logoSettleBounce {
-  0% {
-    opacity: 0;
-    transform: scale(0.55) translateY(30px);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.08) translateY(-6px);
-  }
-  80% {
-    transform: scale(0.96) translateY(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes logoAdvanceExit {
-  0% {
-    transform: scale(1) translateZ(0);
-    opacity: 1;
-    filter: blur(0px);
-  }
-  100% {
-    transform: scale(3.8) translateZ(350px);
-    opacity: 0;
-    filter: blur(12px);
-  }
-}
-
-/* Accessibility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
-/* ==========================================================================
-   MOBILE ADJUSTMENTS
-   ========================================================================== */
-
-@media (max-width: 360px) {
-  .hub-container {
-    padding: 6px 8px 12px;
-  }
-  .games-grid {
-    gap: 8px;
-  }
-  .glass-tile {
-    border-radius: 14px;
-    padding: 8px 4px;
-  }
-  .tile-icon-wrap {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 4px;
-  }
-  .tile-name {
-    font-size: 0.66rem;
-  }
-  .hub-footer {
-    margin-top: 16px;
+  .utility-tile {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .logo-animate-in,
-  .logo-animate-out,
-  .glass-tile.revealed,
-  .glass-tile::after {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .camera-flash-core,
+  .camera-flash-ring,
+  .svg-gear,
+  .svg-heart,
+  .title-light-sweep,
+  .rink-reflection,
+  .floating-curling-item {
     animation: none !important;
-    transition: opacity 0.2s ease !important;
   }
-  .glass-tile.is-falling-through {
-    animation: reduceFall 0.25s ease forwards !important;
-  }
-  @keyframes reduceFall {
-    to { opacity: 0; transform: scale(0.92); }
+
+  .tile:hover,
+  .tile:active,
+  .utility-tile:hover,
+  .utility-tile:active,
+  .donate-action-btn:hover,
+  .donate-action-btn:active {
+    transform: none !important;
   }
 }

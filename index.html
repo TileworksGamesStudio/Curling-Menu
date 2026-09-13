@@ -3,86 +3,268 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Tileworks Curling Games — Frosted Glass Arena Portal." />
-  <meta name="theme-color" content="#f0f6fb" />
-  <title>Tileworks Curling Games</title>
+  <title>Game Collection — Championship Curling Edition</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Ambient Curling Sheet with Real Physics Stones -->
-  <canvas id="ice-canvas" class="ice-canvas" aria-hidden="true"></canvas>
+  <!-- Ambient Curling Ice Background & Arena Lighting Canvas -->
+  <div class="rink-atmosphere" aria-hidden="true">
+    <!-- Painted House (Rings) Ice Watermark -->
+    <div class="ice-house-watermark">
+      <div class="ice-ring ring-12ft"></div>
+      <div class="ice-ring ring-8ft"></div>
+      <div class="ice-ring ring-4ft"></div>
+      <div class="ice-ring ring-button"></div>
+      <div class="ice-tee-line"></div>
+      <div class="ice-centre-line"></div>
+    </div>
+    <!-- Moving Rink Light Reflections -->
+    <div class="rink-reflection reflection-1"></div>
+    <div class="rink-reflection reflection-2"></div>
+    <div class="rink-vignette"></div>
+    <!-- Floating Ambient Curling Icons & Maple Leaves Container -->
+    <div id="curling-ambient-stage" class="curling-ambient-stage"></div>
+  </div>
 
-  <!-- Arena Lighting Layer -->
-  <div class="arena-lighting-overlay" aria-hidden="true"></div>
+  <div class="hub-wrapper">
+    <!-- Tournament & Rink Championship Header -->
+    <header class="hub-header">
+      <div class="header-championship-badge">
+        <span class="badge-leaf" aria-hidden="true">
+          <!-- Mandatory Supplied Maple Leaf SVG Geometry -->
+          <svg viewBox="0 0 298.72 341.12" class="svg-maple-leaf">
+            <g transform="translate(-250.85 -233.44)">
+              <path
+                d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
+                fill="#d71920"
+              />
+            </g>
+          </svg>
+        </span>
+        <span class="badge-text">CANADIAN SPORT SERIES</span>
+        <span class="badge-stone-dots" aria-hidden="true">
+          <span class="stone-dot red-dot"></span>
+          <span class="stone-dot yellow-dot"></span>
+        </span>
+      </div>
 
-  <!-- Smooth Page Transition Shroud -->
-  <div id="transition-curtain" class="transition-curtain" aria-hidden="true"></div>
+      <div class="title-container">
+        <h1 class="hub-title">Game Collection</h1>
+        <div class="title-light-sweep" aria-hidden="true"></div>
+      </div>
+      
+      <!-- Scoreboard Divider Line -->
+      <div class="scoreboard-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <span class="divider-marker red-stone-marker"></span>
+        <span class="divider-center">ICE HUB</span>
+        <span class="divider-marker yellow-stone-marker"></span>
+        <span class="divider-line"></span>
+      </div>
 
-  <!-- Cinematic Logo Sequence -->
-  <div id="intro-overlay" class="intro-overlay" aria-hidden="true">
-    <div class="logo-stage" id="logo-stage">
-      <img
-        src="logo.png"
-        alt="Tileworks Logo"
-        id="intro-logo"
-        class="intro-logo"
-        width="220"
-        height="220"
-      />
+      <p class="hub-subtitle">Select a game to take the hammer</p>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="hub-main">
+      <!-- 3x3 Game Grid -->
+      <div id="game-grid" class="game-grid" role="list" aria-label="Available Games">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+
+      <!-- Secondary Companion Utility Tiles -->
+      <nav class="utility-bar" aria-label="Quick Actions">
+        <!-- 1. Instagram Link with Camera Flash -->
+        <a 
+          href="https://instagram.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="utility-tile tile-instagram" 
+          id="btn-instagram"
+          aria-label="Visit our Instagram"
+          data-stone="red"
+        >
+          <div class="utility-icon icon-camera" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="svg-camera">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"></circle>
+            </svg>
+            <span class="camera-flash-ring"></span>
+            <span class="camera-flash-core"></span>
+          </div>
+          <span class="tile-stone-indicator red" aria-hidden="true"></span>
+        </a>
+
+        <!-- 2. Settings with Smooth Rotating Gear -->
+        <button 
+          type="button" 
+          class="utility-tile tile-settings" 
+          id="btn-settings" 
+          aria-label="Open Settings"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          data-stone="neutral"
+        >
+          <div class="utility-icon icon-gear" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="svg-gear">
+              <circle cx="12" cy="12" r="3.2"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </div>
+        </button>
+
+        <!-- 3. Donate with Beating Heart -->
+        <button 
+          type="button" 
+          class="utility-tile tile-donate" 
+          id="btn-donate" 
+          aria-label="Support and Donate"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          data-stone="yellow"
+        >
+          <div class="utility-icon icon-heart" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="svg-heart">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </div>
+          <span class="tile-stone-indicator yellow" aria-hidden="true"></span>
+        </button>
+      </nav>
+    </main>
+
+    <!-- Footer -->
+    <footer class="hub-footer">
+      <div class="footer-rink-line" aria-hidden="true"></div>
+      <a href="https://github.com" id="external-link" class="footer-link" target="_blank" rel="noopener noreferrer">
+        <span class="footer-leaf" aria-hidden="true">
+          <!-- Mandatory Maple Leaf SVG Geometry -->
+          <svg viewBox="0 0 298.72 341.12" class="svg-footer-leaf">
+            <g transform="translate(-250.85 -233.44)">
+              <path
+                d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </span>
+        About &amp; Info
+      </a>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       MODALS & SLIDE-UP BOTTOM SHEETS
+       ========================================================================= -->
+  <div id="modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+
+  <!-- Settings Bottom Sheet -->
+  <div 
+    id="settings-modal" 
+    class="modal-sheet" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="settings-title"
+    hidden
+  >
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-header">
+      <div class="sheet-header-title-group">
+        <span class="sheet-curling-dot" aria-hidden="true"></span>
+        <h2 id="settings-title" class="sheet-title">Preferences</h2>
+      </div>
+      <button type="button" class="sheet-close" id="close-settings" aria-label="Close settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="sheet-content">
+      <!-- Sound FX Switch -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">Sound FX</span>
+          <span class="setting-desc">Tactile stone clicks &amp; ice chimes</span>
+        </div>
+        <label class="switch" for="toggle-sound">
+          <input type="checkbox" id="toggle-sound" checked />
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <!-- Animations Switch -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">Animations</span>
+          <span class="setting-desc">Ambient ice motion &amp; floating motifs</span>
+        </div>
+        <label class="switch" for="toggle-animations">
+          <input type="checkbox" id="toggle-animations" checked />
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </div>
     </div>
   </div>
 
-  <!-- Master App Viewport -->
-  <div class="app-viewport" id="app-viewport">
-    <main class="hub-container" id="hub-container" aria-label="Tileworks Curling Games Hub">
-      
-      <!-- Arena Header -->
-      <header class="hub-header" id="hub-header">
-        <span class="arena-tag">Curling Arena</span>
-        <h1 class="hub-title">Tileworks Games</h1>
-      </header>
+  <!-- Donate Bottom Sheet -->
+  <div 
+    id="donate-modal" 
+    class="modal-sheet modal-donate" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="donate-title"
+    hidden
+  >
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-header">
+      <div class="donate-badge" aria-hidden="true">
+        <!-- Mandatory Maple Leaf inside Heart Badge -->
+        <svg viewBox="0 0 298.72 341.12" class="svg-donate-leaf">
+          <g transform="translate(-250.85 -233.44)">
+            <path
+              d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
+              fill="currentColor"
+            />
+          </g>
+        </svg>
+      </div>
+      <h2 id="donate-title" class="sheet-title">Keep Games Ad-Free</h2>
+      <button type="button" class="sheet-close" id="close-donate" aria-label="Close donation dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
 
-      <!-- 3x3 Solid Glass Panel Grid -->
-      <section
-        class="grid-wrapper"
-        id="grid-wrapper"
-        role="region"
-        aria-label="Select a Curling Game"
+    <div class="sheet-content donate-body">
+      <p class="donate-intro">
+        Thank you for playing and supporting our games! We built this hub to provide an ultra-clean, lightning-fast gaming experience.
+      </p>
+      <p class="donate-sub">
+        No tracking, no pop-up banners, and zero intrusive ads. If you enjoy playing, any contribution directly powers server hosting and new puzzle development.
+      </p>
+
+      <!-- Specified Stripe Donation Link -->
+      <a 
+        href="https://buy.stripe.com/14AbJ0czm3Ct3ARdPgefC0U" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="donate-action-btn"
+        id="stripe-donate-link"
       >
-        <div class="games-grid" id="games-grid">
-          <!-- 9 permanent slots rendered by script.js -->
-        </div>
-      </section>
+        <span>Donate to Support</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
 
-      <!-- Spaced Instagram Action Button -->
-      <footer class="hub-footer" id="hub-footer">
-        <a
-          href="https://instagram.com/tileworks_studio"
-          id="instagram-link"
-          class="instagram-action"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Follow Tileworks on Instagram"
-        >
-          <svg
-            class="instagram-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
-          <span class="sr-only">Instagram</span>
-        </a>
-      </footer>
-
-    </main>
+      <p class="donate-appreciation">Thank you so much for keeping it alive! ❤️</p>
+    </div>
   </div>
 
   <script src="script.js"></script>

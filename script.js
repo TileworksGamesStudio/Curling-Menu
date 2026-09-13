@@ -1,751 +1,540 @@
 /**
- * TILEWORKS CURLING GAMES — MASTER HUB CONTROLLER
- * 
- * Features:
- * 1. Liquid glass melting & 3D fall-through animation when tiles are clicked.
- * 2. Exact 0.7s (700ms) delay for a silky-smooth transition to the next page.
- * 3. Dynamic sub-ice crater and liquid glass droplet cascade.
- * 4. Ambient 2D physics simulation of curling stones on ice sheet.
- * 5. Dedicated Instagram link configuration at the top.
+ * Game Collection Hub Controller — Championship Curling Edition
+ * Advanced Light Neo-Brutalist Canadian Sport Interface
  */
+(function () {
+  "use strict";
 
-// ==========================================================================
-// 1. CONFIGURATION — EDIT YOUR INSTAGRAM URL & TILES HERE
-// ==========================================================================
-const CONFIG = {
-  // 👉 PASTE YOUR INSTAGRAM PROFILE LINK HERE:
-  instagramUrl: "https://instagram.com/tileworks_studio",
+  // Game Grid Collection Data Model (Preserved)
+  const GAMES = [
+    { id: "crossword", name: "Crossword", url: "https://tileworksgamesstudio.github.io/Curling-Crossword/", enabled: true, icon: "grid" },
+    { id: "connections", name: "Connections", url: "https://tileworksgamesstudio.github.io/Curling-Connections/", enabled: true, icon: "nodes" },
+    { id: "trivia", name: "Trivia", url: "https://tileworksgamesstudio.github.io/Curling-Trivia/", enabled: true, icon: "help" },
+    { id: "hangman", name: "Hangman", url: "https://tileworksgamesstudio.github.io/Curling-Hangman/", enabled: true, icon: "text" },
+    { id: "specs", name: "Match", url: "https://tileworksgamesstudio.github.io/Curling-Cards/", enabled: true, icon: "check" },
+    { id: "memory", name: "Memory", url: "https://tileworksgamesstudio.github.io/Curling-Memory/", enabled: true, icon: "cards" },
+    { id: "spelling-bee", name: "Letters", url: "https://tileworksgamesstudio.github.io/Curling-Spelling", enabled: true, icon: "hex" },
+    { id: "wordle", name: "Word Guess", url: "https://tileworksgamesstudio.github.io/Curling-Wordle/", enabled: true, icon: "rows" },
+    { id: "extra", name: "Extra", url: "https://tileworksgamesstudio.github.io/Curling-Wordsearch/", enabled: true, icon: "plus" }
+  ];
 
-  // Master switch for dev/testing bypass of the intro sequence
-  skipIntro: false,
+  // Restrained neutral stroke icons for games
+  const ICONS = {
+    grid: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+    nodes: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="6" y1="9" x2="6" y2="15"/><line x1="18" y1="9" x2="18" y2="15"/><line x1="9" y1="18" x2="15" y2="18"/></svg>',
+    help: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    text: '<svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="6" y1="17" x2="20" y2="17"/></svg>',
+    check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    cards: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="13" height="15" rx="2"/><rect x="9" y="3" width="13" height="15" rx="2"/></svg>',
+    hex: '<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"/></svg>',
+    rows: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>',
+    plus: '<svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+  };
 
-  // Animation Timings (milliseconds)
-  timings: {
-    logoHoldDuration: 800,    // 0.8s logo hold on screen
-    logoExitDuration: 650,    // Fly-through toward camera
-    gridStaggerDelay: 45,     // Sequential card rise
-    transitionDelay: 700,     // Exact 0.7s delay: molten fall through screen before page opens
-    veilTriggerLead: 200      // Smooth veil begins 200ms before redirect (at 500ms)
-  },
+  /* --------------------------------------------------------------------------
+     EXACTLY 12 DISTINCT CURLING ICONS + CANADIAN MAPLE LEAF (MANDATORY SVG)
+     -------------------------------------------------------------------------- */
+  // Mandatory Canadian Maple Leaf SVG silhouette
+  const MAPLE_LEAF_PATH = 'm325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z';
 
-  // 9 Fixed Slots (Order preserved)
-  tiles: [
-    {
-      id: "crossword",
-      name: "Crossword",
-      url: "https://tileworksgamesstudio.github.io/Curling-Crossword/",
-      enabled: false,
-      icon: "crossword"
-    },
-    {
-      id: "connections",
-      name: "Connections",
-      url: "https://tileworksgamesstudio.github.io/Curling-Connections/",
-      enabled: true,
-      icon: "connections"
-    },
-    {
-      id: "trivia",
-      name: "Trivia",
-      url: "https://tileworksgamesstudio.github.io/Curling-Trivia/",
-      enabled: true,
-      icon: "trivia"
-    },
-    {
-      id: "hangman",
-      name: "Hangman",
-      url: "https://tileworksgamesstudio.github.io/Curling-Hangman/",
-      enabled: true,
-      icon: "hangman"
-    },
-    {
-      id: "specs",
-      name: "Specs",
-      url: "https://tileworks.games/specs",
-      enabled: false,
-      icon: "specs"
-    },
-    {
-      id: "memory",
-      name: "Memory",
-      url: "https://tileworksgamesstudio.github.io/Curling-Memory/",
-      enabled: true,
-      icon: "memory"
-    },
-    {
-      id: "spelling-bee",
-      name: "Spelling Bee",
-      url: "https://tileworksgamesstudio.github.io/Curling-Spelling",
-      enabled: true,
-      icon: "spelling-bee"
-    },
-    {
-      id: "wordle",
-      name: "Wordle",
-      url: "https://tileworksgamesstudio.github.io/Curling-Wordle/",
-      enabled: true,
-      icon: "wordle"
-    },
-    {
-      id: "donate",
-      name: "Donate",
-      url: "https://tileworks.games/donate",
-      enabled: false,
-      icon: "donate"
-    }
-  ],
+  const CURLING_ICONS = [
+    // 1. Curling Stone
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="15" rx="9" ry="5"/><path d="M7 13V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/><path d="M9 7V4h6v3"/></svg>',
+    // 2. Curling House / Rings
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    // 3. Curling Broom
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="5" x2="16" y2="16"/><path d="M14 18l5-5 2 2-5 5z"/></svg>',
+    // 4. Brush Head
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M12 14V5M8 5h8"/></svg>',
+    // 5. Hack (Foothold)
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="8" width="14" height="8" rx="1"/><line x1="8" y1="8" x2="8" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="16" y1="8" x2="16" y2="16"/></svg>',
+    // 6. Curling Stone Handle
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 16h14M8 16V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v7"/></svg>',
+    // 7. Hog Line
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg>',
+    // 8. Back Line
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="2" y1="16" x2="22" y2="16"/><path d="M8 8a4 4 0 0 1 8 0"/></svg>',
+    // 9. Centre Line
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="2" x2="12" y2="22"/><line x1="4" y1="12" x2="20" y2="12"/></svg>',
+    // 10. Ice Pebble Texture Motif
+    '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="6" r="1.5"/><circle cx="14" cy="7" r="1.2"/><circle cx="18" cy="13" r="1.5"/><circle cx="7" cy="15" r="1.2"/><circle cx="12" cy="18" r="1.4"/></svg>',
+    // 11. Scoreboard End Marker
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
+    // 12. Skip / Delivery Silhouette
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="2.5"/><path d="M4 19l4-6 5 2 7-3M9 13l4 6"/></svg>'
+  ];
 
-  // Background Curling Arena Simulation
-  physics: {
-    stoneCountDesktop: 10,
-    stoneCountMobile: 7,
-    friction: 0.996,
-    angularFriction: 0.992,
-    bounceRestitution: 0.82,
-    minGlideSpeed: 0.25
-  }
-};
-
-// ==========================================================================
-// 2. SVG ICON REPOSITORY (CURLING BLUE PALETTE)
-// ==========================================================================
-const ICONS = {
-  crossword: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-      <path d="M3 9h18M3 15h18M9 3v18M15 3v18"></path>
-      <rect x="9" y="9" width="6" height="6" fill="currentColor" fill-opacity="0.22"></rect>
-      <rect x="3" y="3" width="6" height="6" fill="currentColor" fill-opacity="0.14"></rect>
-      <rect x="15" y="15" width="6" height="6" fill="currentColor" fill-opacity="0.14"></rect>
-    </svg>`,
-
-  connections: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="6" cy="6" r="3"></circle>
-      <circle cx="18" cy="6" r="3"></circle>
-      <circle cx="6" cy="18" r="3"></circle>
-      <circle cx="18" cy="18" r="3"></circle>
-      <line x1="9" y1="6" x2="15" y2="6"></line>
-      <line x1="6" y1="9" x2="6" y2="15"></line>
-      <line x1="18" y1="9" x2="18" y2="15"></line>
-      <line x1="9" y1="18" x2="15" y2="18"></line>
-      <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"></line>
-    </svg>`,
-
-  trivia: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="9"></circle>
-      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-      <circle cx="12" cy="17" r="0.75" fill="currentColor"></circle>
-    </svg>`,
-
-  hangman: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 21h16M7 21V3h8v4"></path>
-      <circle cx="15" cy="9.5" r="2.5"></circle>
-      <path d="M15 12v4m-2-3h4m-3 3l-2 3m3-3l2 3"></path>
-    </svg>`,
-
-  specs: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="5" y="3" width="14" height="18" rx="2"></rect>
-      <line x1="9" y1="7" x2="15" y2="7"></line>
-      <line x1="9" y1="11" x2="15" y2="11"></line>
-      <line x1="9" y1="15" x2="12" y2="15"></line>
-      <circle cx="8" cy="7" r="0.7" fill="currentColor"></circle>
-      <circle cx="8" cy="11" r="0.7" fill="currentColor"></circle>
-      <circle cx="8" cy="15" r="0.7" fill="currentColor"></circle>
-    </svg>`,
-
-  memory: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="5" width="11" height="15" rx="2"></rect>
-      <path d="M10 3h8a2 2 0 0 1 2 2v12"></path>
-      <circle cx="8.5" cy="12.5" r="2" fill="currentColor" fill-opacity="0.2"></circle>
-    </svg>`,
-
-  "spelling-bee": `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 20 6.5 20 15.5 12 20 4 15.5 4 6.5 12 2"></polygon>
-      <polygon points="12 6 16 8.5 16 13.5 12 16 8 13.5 8 8.5 12 6" fill="currentColor" fill-opacity="0.25"></polygon>
-      <circle cx="12" cy="11" r="1.5" fill="currentColor"></circle>
-    </svg>`,
-
-  wordle: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="5" height="5" rx="1" fill="currentColor" fill-opacity="0.2"></rect>
-      <rect x="9.5" y="3" width="5" height="5" rx="1"></rect>
-      <rect x="16" y="3" width="5" height="5" rx="1"></rect>
-      <rect x="3" y="9.5" width="5" height="5" rx="1"></rect>
-      <rect x="9.5" y="9.5" width="5" height="5" rx="1" fill="currentColor" fill-opacity="0.3"></rect>
-      <rect x="16" y="9.5" width="5" height="5" rx="1"></rect>
-      <rect x="3" y="16" width="5" height="5" rx="1"></rect>
-      <rect x="9.5" y="16" width="5" height="5" rx="1"></rect>
-      <rect x="16" y="16" width="5" height="5" rx="1" fill="currentColor" fill-opacity="0.2"></rect>
-    </svg>`,
-
-  donate: `
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-      <path d="M12 9v6m-3-3h6" stroke-linecap="round"></path>
-    </svg>`
-};
-
-// ==========================================================================
-// 3. AMBIENT CURLING ICE & STONE SIMULATION
-// ==========================================================================
-class CurlingArenaEngine {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext("2d", { alpha: false });
-    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
-    this.stones = [];
-    this.width = 0;
-    this.height = 0;
-    this.isRunning = false;
-    this.light = { x: 0, y: 0 };
-
-    this.init();
+  function getMapleLeafSvg(color = "#d71920") {
+    return `<svg viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+      <g transform="translate(-250.85 -233.44)">
+        <path d="${MAPLE_LEAF_PATH}" fill="${color}"/>
+      </g>
+    </svg>`;
   }
 
-  init() {
-    this.resize();
-    window.addEventListener("resize", () => this.resize(), { passive: true });
+  // State & Settings
+  const STORAGE_KEY = "game_hub_settings";
+  const state = {
+    sound: true,
+    animations: true
+  };
 
-    const count = this.width < 600 ? CONFIG.physics.stoneCountMobile : CONFIG.physics.stoneCountDesktop;
-    this.stones = [];
-    for (let i = 0; i < count; i++) {
-      this.stones.push(this.createStone(i));
-    }
-
-    this.start();
-  }
-
-  resize() {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-    this.canvas.width = Math.floor(this.width * this.dpr);
-    this.canvas.height = Math.floor(this.height * this.dpr);
-    this.ctx.scale(this.dpr, this.dpr);
-
-    this.light.x = this.width * 0.5;
-    this.light.y = this.height * 0.35;
-  }
-
-  createStone(index) {
-    const isRed = index % 2 === 0;
-    const depth = 0.75 + Math.random() * 0.45;
-    const baseRadius = (this.width < 500 ? 24 : 30) * depth;
-
-    return {
-      x: Math.random() * (this.width - 100) + 50,
-      y: Math.random() * (this.height - 100) + 50,
-      vx: (Math.random() - 0.5) * 1.8,
-      vy: (Math.random() - 0.5) * 1.8,
-      radius: baseRadius,
-      mass: baseRadius * baseRadius,
-      color: isRed ? "#c5232a" : "#df9e19",
-      accentColor: isRed ? "#96151b" : "#b37b0c",
-      rotation: Math.random() * Math.PI * 2,
-      angularVelocity: (Math.random() - 0.5) * 0.04
-    };
-  }
-
-  update() {
-    this.light.x += (Math.sin(Date.now() * 0.0006) * this.width * 0.2 + (this.width * 0.5) - this.light.x) * 0.02;
-    this.light.y += (Math.cos(Date.now() * 0.0005) * this.height * 0.15 + (this.height * 0.35) - this.light.y) * 0.02;
-
-    document.documentElement.style.setProperty("--light-x", `${(this.light.x / this.width) * 100}%`);
-    document.documentElement.style.setProperty("--light-y", `${(this.light.y / this.height) * 100}%`);
-
-    const p = CONFIG.physics;
-
-    for (let i = 0; i < this.stones.length; i++) {
-      const s = this.stones[i];
-
-      s.vx *= p.friction;
-      s.vy *= p.friction;
-      s.angularVelocity *= p.angularFriction;
-
-      s.x += s.vx;
-      s.y += s.vy;
-      s.rotation += s.angularVelocity;
-
-      const currentSpeed = Math.hypot(s.vx, s.vy);
-      if (currentSpeed < p.minGlideSpeed) {
-        const angle = Math.random() * Math.PI * 2;
-        s.vx += Math.cos(angle) * 0.35;
-        s.vy += Math.sin(angle) * 0.35;
-        s.angularVelocity += (Math.random() - 0.5) * 0.015;
+  function loadSettings() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.sound === "boolean") state.sound = parsed.sound;
+        if (typeof parsed.animations === "boolean") state.animations = parsed.animations;
       }
+    } catch (e) {
+      // Local storage fallback
+    }
+  }
 
-      if (s.x - s.radius < 0) {
-        s.x = s.radius;
-        s.vx = -s.vx * p.bounceRestitution;
-      } else if (s.x + s.radius > this.width) {
-        s.x = this.width - s.radius;
-        s.vx = -s.vx * p.bounceRestitution;
-      }
+  function saveSettings() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      // Local storage fallback
+    }
+  }
 
-      if (s.y - s.radius < 0) {
-        s.y = s.radius;
-        s.vy = -s.vy * p.bounceRestitution;
-      } else if (s.y + s.radius > this.height) {
-        s.y = this.height - s.radius;
-        s.vy = -s.vy * p.bounceRestitution;
+  /* --------------------------------------------------------------------------
+     Synthesized Web Audio: Tactile Curling Stones, Ice & Broom Sounds
+     (Clean, Safe, Zero External Assets)
+     -------------------------------------------------------------------------- */
+  let audioCtx = null;
+
+  function initAudio() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
       }
     }
-
-    // Elastic Granite Collisions
-    for (let i = 0; i < this.stones.length; i++) {
-      for (let j = i + 1; j < this.stones.length; j++) {
-        const s1 = this.stones[i];
-        const s2 = this.stones[j];
-
-        const dx = s2.x - s1.x;
-        const dy = s2.y - s1.y;
-        const dist = Math.hypot(dx, dy);
-        const minDist = s1.radius + s2.radius;
-
-        if (dist < minDist && dist > 0.001) {
-          const nx = dx / dist;
-          const ny = dy / dist;
-
-          const overlap = minDist - dist;
-          s1.x -= nx * overlap * 0.5;
-          s1.y -= ny * overlap * 0.5;
-          s2.x += nx * overlap * 0.5;
-          s2.y += ny * overlap * 0.5;
-
-          const kx = s1.vx - s2.vx;
-          const ky = s1.vy - s2.vy;
-          const pVal = 2 * (nx * kx + ny * ky) / (s1.mass + s2.mass);
-
-          s1.vx -= pVal * s2.mass * nx * p.bounceRestitution;
-          s1.vy -= pVal * s2.mass * ny * p.bounceRestitution;
-          s2.vx += pVal * s1.mass * nx * p.bounceRestitution;
-          s2.vy += pVal * s1.mass * ny * p.bounceRestitution;
-
-          const spinDelta = (s1.angularVelocity - s2.angularVelocity) * 0.3;
-          s1.angularVelocity -= spinDelta;
-          s2.angularVelocity += spinDelta;
-        }
-      }
+    if (audioCtx && audioCtx.state === "suspended") {
+      audioCtx.resume();
     }
   }
 
-  drawRoundedRect(x, y, w, h, radius) {
-    const ctx = this.ctx;
-    if (ctx.roundRect) {
-      ctx.roundRect(x, y, w, h, radius);
-    } else {
-      ctx.rect(x, y, w, h);
+  // Stone contact click / Broom sweep chime
+  function playSound(freq = 480, type = "triangle", duration = 0.06, endFreqRatio = 0.45) {
+    if (!state.sound) return;
+    try {
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(Math.max(40, freq * endFreqRatio), audioCtx.currentTime + duration);
+
+      // Low, comfortable volume
+      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (err) {
+      // Graceful silent fallback
     }
   }
 
-  drawCurlingStone(stone) {
-    const ctx = this.ctx;
-    const r = stone.radius;
-
-    ctx.save();
-    ctx.translate(stone.x, stone.y);
-
-    // Drop shadow
-    ctx.save();
-    const shadowGrad = ctx.createRadialGradient(4, 6, r * 0.3, 4, 6, r * 1.2);
-    shadowGrad.addColorStop(0, "rgba(7, 23, 38, 0.25)");
-    shadowGrad.addColorStop(0.7, "rgba(7, 23, 38, 0.08)");
-    shadowGrad.addColorStop(1, "rgba(7, 23, 38, 0)");
-    ctx.fillStyle = shadowGrad;
-    ctx.beginPath();
-    ctx.arc(4, 6, r * 1.2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    ctx.rotate(stone.rotation);
-
-    // Granite body
-    const bodyGrad = ctx.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.1, 0, 0, r);
-    bodyGrad.addColorStop(0, "#565e68");
-    bodyGrad.addColorStop(0.6, "#333940");
-    bodyGrad.addColorStop(1, "#1c2126");
-    ctx.fillStyle = bodyGrad;
-    ctx.beginPath();
-    ctx.arc(0, 0, r, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Colored Ring
-    const ringGrad = ctx.createRadialGradient(-r * 0.2, -r * 0.2, r * 0.1, 0, 0, r * 0.75);
-    ringGrad.addColorStop(0, stone.color);
-    ringGrad.addColorStop(0.85, stone.accentColor);
-    ringGrad.addColorStop(1, "#181d22");
-    ctx.fillStyle = ringGrad;
-    ctx.beginPath();
-    ctx.arc(0, 0, r * 0.75, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Core
-    ctx.fillStyle = "#2b3036";
-    ctx.beginPath();
-    ctx.arc(0, 0, r * 0.38, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Screws
-    ctx.fillStyle = "#bcc5ce";
-    ctx.beginPath();
-    ctx.arc(-r * 0.22, 0, r * 0.07, 0, Math.PI * 2);
-    ctx.arc(r * 0.22, 0, r * 0.07, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Handle
-    ctx.fillStyle = "#ffffff";
-    ctx.beginPath();
-    this.drawRoundedRect(-r * 0.26, -r * 0.08, r * 0.52, r * 0.16, r * 0.06);
-    ctx.fill();
-
-    ctx.fillStyle = stone.color;
-    ctx.beginPath();
-    this.drawRoundedRect(-r * 0.18, -r * 0.06, r * 0.36, r * 0.12, r * 0.04);
-    ctx.fill();
-
-    ctx.restore();
+  // Two-tone chime for modal opening and important actions
+  function playIceChime() {
+    if (!state.sound) return;
+    playSound(580, "sine", 0.05, 0.9);
+    setTimeout(() => {
+      playSound(780, "sine", 0.06, 0.85);
+    }, 45);
   }
 
-  render() {
-    const ctx = this.ctx;
-    ctx.clearRect(0, 0, this.width, this.height);
+  /* --------------------------------------------------------------------------
+     Grid Renderer
+     -------------------------------------------------------------------------- */
+  function renderGrid() {
+    const grid = document.getElementById("game-grid");
+    if (!grid) return;
 
-    // Ice Base
-    const iceGrad = ctx.createLinearGradient(0, 0, this.width, this.height);
-    iceGrad.addColorStop(0, "#f3f8fc");
-    iceGrad.addColorStop(0.5, "#eaf3fa");
-    iceGrad.addColorStop(1, "#e2eff9");
-    ctx.fillStyle = iceGrad;
-    ctx.fillRect(0, 0, this.width, this.height);
+    const fragment = document.createDocumentFragment();
 
-    // Rink Markings
-    ctx.save();
-    ctx.strokeStyle = "rgba(11, 34, 56, 0.08)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(this.width * 0.5, 0);
-    ctx.lineTo(this.width * 0.5, this.height);
-    ctx.stroke();
+    GAMES.forEach((item, index) => {
+      const cell = document.createElement("div");
+      cell.className = "grid-cell";
 
-    ctx.strokeStyle = "rgba(197, 35, 42, 0.12)";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(0, this.height * 0.28);
-    ctx.lineTo(this.width, this.height * 0.28);
-    ctx.stroke();
-
-    // House Rings
-    const hX = this.width * 0.5;
-    const hY = this.height * 0.58;
-    const hR = Math.min(this.width, this.height) * 0.42;
-
-    ctx.fillStyle = "rgba(11, 34, 56, 0.05)";
-    ctx.beginPath();
-    ctx.arc(hX, hY, hR, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "rgba(240, 246, 251, 0.4)";
-    ctx.beginPath();
-    ctx.arc(hX, hY, hR * 0.66, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "rgba(197, 35, 42, 0.07)";
-    ctx.beginPath();
-    ctx.arc(hX, hY, hR * 0.33, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    ctx.beginPath();
-    ctx.arc(hX, hY, hR * 0.12, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    // Arena dynamic lighting
-    const arenaLight = ctx.createRadialGradient(
-      this.light.x, this.light.y, 10,
-      this.light.x, this.light.y, Math.max(this.width, this.height) * 0.65
-    );
-    arenaLight.addColorStop(0, "rgba(255, 255, 255, 0.45)");
-    arenaLight.addColorStop(0.5, "rgba(240, 247, 253, 0.12)");
-    arenaLight.addColorStop(1, "rgba(220, 235, 248, 0)");
-    ctx.fillStyle = arenaLight;
-    ctx.fillRect(0, 0, this.width, this.height);
-
-    // Stones
-    for (let i = 0; i < this.stones.length; i++) {
-      this.drawCurlingStone(this.stones[i]);
-    }
-  }
-
-  loop() {
-    if (!this.isRunning) return;
-    this.update();
-    this.render();
-    requestAnimationFrame(() => this.loop());
-  }
-
-  start() {
-    if (!this.isRunning) {
-      this.isRunning = true;
-      requestAnimationFrame(() => this.loop());
-    }
-  }
-
-  pause() {
-    this.isRunning = false;
-  }
-}
-
-// ==========================================================================
-// 4. HUB CONTROLLER & ADVANCED MELT-FALL TRANSITION
-// ==========================================================================
-class TileworksHubController {
-  constructor() {
-    this.arenaEngine = null;
-    this.isNavigating = false;
-    this.isReady = false;
-    this.introHandled = false;
-
-    // DOM Elements
-    this.gridElement = document.getElementById("games-grid");
-    this.introOverlay = document.getElementById("intro-overlay");
-    this.introLogo = document.getElementById("intro-logo");
-    this.logoStage = document.getElementById("logo-stage");
-    this.headerElement = document.getElementById("hub-header");
-    this.footerElement = document.getElementById("hub-footer");
-    this.viewportElement = document.getElementById("app-viewport");
-    this.transitionVeil = document.getElementById("page-transition-veil");
-    this.instagramLink = document.getElementById("instagram-link");
-
-    this.init();
-  }
-
-  init() {
-    // 1. Ice Simulation
-    const canvas = document.getElementById("ice-canvas");
-    if (canvas) {
-      this.arenaEngine = new CurlingArenaEngine(canvas);
-    }
-
-    // 2. Set Instagram Profile from CONFIG
-    if (this.instagramLink && CONFIG.instagramUrl) {
-      this.instagramLink.href = CONFIG.instagramUrl;
-    }
-
-    // 3. Render 3x3 Grid
-    this.renderGrid();
-
-    // 4. Visibility Listener for CPU Economy
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        if (this.arenaEngine) this.arenaEngine.pause();
-      } else {
-        if (this.arenaEngine) this.arenaEngine.start();
-      }
-    });
-
-    // 5. Intro Sequence with automatic failsafe
-    if (CONFIG.skipIntro) {
-      this.bypassIntro();
-    } else {
-      this.runIntroSequence();
-
-      setTimeout(() => {
-        if (!this.introHandled) {
-          this.introHandled = true;
-          this.revealHub();
-        }
-      }, 1600);
-    }
-  }
-
-  renderGrid() {
-    if (!this.gridElement) return;
-    this.gridElement.innerHTML = "";
-
-    CONFIG.tiles.forEach((tile, index) => {
-      const slot = document.createElement("div");
-      slot.className = "grid-slot";
-      slot.setAttribute("data-slot", index);
-
-      if (tile && tile.enabled) {
+      if (item && item.enabled) {
         const link = document.createElement("a");
-        link.className = "glass-tile";
-        link.href = tile.url;
-        link.setAttribute("role", "button");
-        link.setAttribute("aria-label", `Play ${tile.name}`);
-        link.setAttribute("data-id", tile.id);
+        link.className = "tile";
+        link.href = item.url || "#";
+        link.setAttribute("role", "listitem");
+        link.setAttribute("aria-label", `Play ${item.name}`);
 
-        const iconWrap = document.createElement("div");
-        iconWrap.className = "tile-icon-wrap";
-        iconWrap.innerHTML = ICONS[tile.icon] || ICONS.crossword;
+        // Tactile stone tap feedback on click
+        link.addEventListener("click", () => {
+          // Alternating subtle pitch like red and yellow stones colliding
+          const pitch = index % 2 === 0 ? 540 : 490;
+          playSound(pitch, "triangle", 0.055, 0.4);
+        });
 
-        const nameEl = document.createElement("span");
-        nameEl.className = "tile-name";
-        nameEl.textContent = tile.name;
+        const iconEl = document.createElement("div");
+        iconEl.className = "tile-icon";
+        iconEl.innerHTML = ICONS[item.icon] || ICONS.grid;
 
-        link.appendChild(iconWrap);
-        link.appendChild(nameEl);
+        const label = document.createElement("span");
+        label.className = "tile-label";
+        label.textContent = item.name;
 
-        this.attachTileInteractions(link, slot, tile);
-        slot.appendChild(link);
+        link.appendChild(iconEl);
+        link.appendChild(label);
+        cell.appendChild(link);
       } else {
-        slot.classList.add("empty");
-        slot.setAttribute("aria-hidden", "true");
+        cell.classList.add("is-empty");
+        cell.setAttribute("aria-hidden", "true");
       }
 
-      this.gridElement.appendChild(slot);
+      fragment.appendChild(cell);
     });
+
+    grid.innerHTML = "";
+    grid.appendChild(fragment);
   }
 
-  attachTileInteractions(tileElement, slotElement, tileData) {
-    // Dynamic liquid glint tracking
-    const updateGlint = (e) => {
-      const rect = tileElement.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      tileElement.style.setProperty("--liquid-x", `${x}%`);
-      tileElement.style.setProperty("--liquid-y", `${y}%`);
-    };
+  /* --------------------------------------------------------------------------
+     Ambient Floating Curling & Maple Leaf System
+     -------------------------------------------------------------------------- */
+  let ambientAnimationId = null;
+  const activeParticles = [];
+  const MAX_PARTICLES = 14;
 
-    tileElement.addEventListener("mousemove", updateGlint, { passive: true });
-    tileElement.addEventListener("touchmove", (e) => {
-      if (e.touches && e.touches[0]) updateGlint(e.touches[0]);
-    }, { passive: true });
+  function createAmbientMotif() {
+    const stage = document.getElementById("curling-ambient-stage");
+    if (!stage || !state.animations || activeParticles.length >= MAX_PARTICLES) return;
 
-    // Click: Trigger Liquid Melt & 3D Fall-Through (0.7s Delay)
-    tileElement.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (this.isNavigating || !this.isReady) return;
-      this.executeTileMeltAndFall(tileElement, slotElement, tileData.url);
-    });
-  }
-
-  spawnMeltDroplets(slotElement) {
-    const count = 6;
-    for (let i = 0; i < count; i++) {
-      const drop = document.createElement("div");
-      drop.className = "melt-droplet";
-      
-      const size = Math.random() * 8 + 6;
-      drop.style.width = `${size}px`;
-      drop.style.height = `${size}px`;
-      
-      // Random position across the slot
-      drop.style.left = `${Math.random() * 80 + 10}%`;
-      drop.style.top = `${Math.random() * 60 + 20}%`;
-      
-      const tx = (Math.random() - 0.5) * 45;
-      drop.style.setProperty("--tx", `${tx}px`);
-      drop.style.animationDelay = `${Math.random() * 120}ms`;
-
-      slotElement.appendChild(drop);
-
-      setTimeout(() => drop.remove(), 700);
-    }
-  }
-
-  executeTileMeltAndFall(tileElement, slotElement, destinationUrl) {
-    this.isNavigating = true;
-
-    // 1. Dim neighboring tiles
-    const hubContainer = document.getElementById("hub-container");
-    if (hubContainer) hubContainer.classList.add("has-selection");
-
-    // 2. Open molten sub-ice crater in grid slot
-    if (slotElement) {
-      slotElement.classList.add("is-dropping");
-      this.spawnMeltDroplets(slotElement);
-    }
-
-    // 3. Trigger Liquid Melt & 3D plunge animation
-    tileElement.classList.add("is-melting-falling");
-
-    // 4. Subtle camera plunge toward the breach
-    if (this.viewportElement) {
-      this.viewportElement.classList.add("camera-plunge");
-    }
-
-    // 5. Smooth Veil Fade-In (Leads into redirect at 500ms -> 700ms)
-    const veilLeadTime = Math.max(0, CONFIG.timings.transitionDelay - CONFIG.timings.veilTriggerLead);
-    setTimeout(() => {
-      if (this.transitionVeil) {
-        this.transitionVeil.classList.add("active");
-      }
-    }, veilLeadTime);
-
-    // 6. Navigate cleanly at exactly 0.7s (700ms)
-    setTimeout(() => {
-      window.location.href = destinationUrl;
-    }, CONFIG.timings.transitionDelay);
-  }
-
-  runIntroSequence() {
-    if (!this.introOverlay || !this.logoStage || !this.introLogo) {
-      this.revealHub();
+    // Check prefers-reduced-motion
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
-    this.introLogo.onerror = () => {
-      if (!this.introHandled) {
-        this.introHandled = true;
-        this.revealHub();
-      }
-    };
+    const item = document.createElement("div");
+    item.className = "floating-curling-item";
 
-    // Elastic Logo Entrance
-    this.logoStage.classList.add("logo-animate-in");
-
-    // Fly through camera
-    setTimeout(() => {
-      if (this.introHandled) return;
-      this.logoStage.classList.remove("logo-animate-in");
-      this.logoStage.classList.add("logo-animate-out");
-
-      setTimeout(() => {
-        this.introHandled = true;
-        this.revealHub();
-      }, CONFIG.timings.logoExitDuration);
-    }, 750 + CONFIG.timings.logoHoldDuration);
-  }
-
-  revealHub() {
-    if (this.introOverlay) {
-      this.introOverlay.classList.add("dismissed");
+    // 3 Distinct Depth Levels
+    const depthRand = Math.random();
+    let depthClass, scale, opacity, speed, blur;
+    
+    if (depthRand < 0.45) {
+      // Distant
+      depthClass = "depth-distant";
+      scale = 0.65 + Math.random() * 0.25;
+      opacity = 0.08 + Math.random() * 0.08;
+      speed = 0.35 + Math.random() * 0.3;
+      blur = 1.2;
+    } else if (depthRand < 0.8) {
+      // Middle
+      depthClass = "depth-mid";
+      scale = 0.9 + Math.random() * 0.35;
+      opacity = 0.16 + Math.random() * 0.12;
+      speed = 0.55 + Math.random() * 0.35;
+      blur = 0.5;
+    } else {
+      // Near
+      depthClass = "depth-near";
+      scale = 1.25 + Math.random() * 0.45;
+      opacity = 0.22 + Math.random() * 0.15;
+      speed = 0.75 + Math.random() * 0.4;
+      blur = 0;
     }
 
-    if (this.headerElement) this.headerElement.classList.add("revealed");
+    item.classList.add(depthClass);
 
-    const tiles = this.gridElement.querySelectorAll(".glass-tile");
-    tiles.forEach((tile, index) => {
-      setTimeout(() => {
-        tile.classList.add("revealed");
-      }, index * CONFIG.timings.gridStaggerDelay);
-    });
+    // Pick between 12 curling icons or Canadian Maple Leaf (approx 35% chance for leaf)
+    const isLeaf = Math.random() < 0.35;
+    if (isLeaf) {
+      const colors = ["#d71920", "#0b1c2d", "#ff2b30", "#ffc400"];
+      const leafColor = colors[Math.floor(Math.random() * colors.length)];
+      item.innerHTML = getMapleLeafSvg(leafColor);
+      item.style.width = "30px";
+      item.style.height = "34px";
+    } else {
+      const iconIndex = Math.floor(Math.random() * CURLING_ICONS.length);
+      item.innerHTML = CURLING_ICONS[iconIndex];
+      item.style.width = "26px";
+      item.style.height = "26px";
 
+      // Color accent: dark blue, canadian red, or stone yellow
+      const colorChoices = ["#0b1c2d", "#235882", "#d71920", "#ffc400"];
+      item.style.color = colorChoices[Math.floor(Math.random() * colorChoices.length)];
+    }
+
+    const startX = Math.random() * 92 + 4; // percentage
+    let currentY = 105; // start below screen
+    let currentX = startX;
+    let rotation = Math.random() * 360;
+    const rotSpeed = (Math.random() - 0.5) * 0.4;
+    const driftX = (Math.random() - 0.5) * 0.25;
+
+    item.style.left = `${startX}%`;
+    item.style.top = `${currentY}%`;
+    item.style.opacity = "0";
+    item.style.filter = blur > 0 ? `blur(${blur}px)` : "none";
+
+    stage.appendChild(item);
+
+    const particleObj = {
+      el: item,
+      x: currentX,
+      y: currentY,
+      speed,
+      driftX,
+      rotation,
+      rotSpeed,
+      targetOpacity: opacity,
+      currentOpacity: 0,
+      scale
+    };
+
+    activeParticles.push(particleObj);
+  }
+
+  function updateAmbientMotifs() {
+    if (!state.animations) {
+      clearAmbientMotifs();
+      return;
+    }
+
+    for (let i = activeParticles.length - 1; i >= 0; i--) {
+      const p = activeParticles[i];
+      p.y -= p.speed * 0.38;
+      p.x += p.driftX;
+      p.rotation += p.rotSpeed;
+
+      // Smooth fade-in and fade-out
+      if (p.y > 90) {
+        p.currentOpacity = Math.min(p.targetOpacity, p.currentOpacity + 0.015);
+      } else if (p.y < 15) {
+        p.currentOpacity = Math.max(0, p.currentOpacity - 0.01);
+      } else {
+        p.currentOpacity = p.targetOpacity;
+      }
+
+      p.el.style.transform = `translate3d(${p.x - 50}vw, ${p.y}vh, 0) scale(${p.scale}) rotate(${p.rotation}deg)`;
+      p.el.style.opacity = p.currentOpacity.toFixed(3);
+
+      // Remove when off-screen
+      if (p.y < -10) {
+        if (p.el.parentNode) {
+          p.el.parentNode.removeChild(p.el);
+        }
+        activeParticles.splice(i, 1);
+      }
+    }
+
+    // Random spawn cadence
+    if (Math.random() < 0.04 && activeParticles.length < MAX_PARTICLES) {
+      createAmbientMotif();
+    }
+
+    ambientAnimationId = requestAnimationFrame(updateAmbientMotifs);
+  }
+
+  function clearAmbientMotifs() {
+    if (ambientAnimationId) {
+      cancelAnimationFrame(ambientAnimationId);
+      ambientAnimationId = null;
+    }
+    const stage = document.getElementById("curling-ambient-stage");
+    if (stage) stage.innerHTML = "";
+    activeParticles.length = 0;
+  }
+
+  function startAmbientSystem() {
+    if (!state.animations) return;
+    clearAmbientMotifs();
+    // Pre-populate with a few initial motifs at varied heights
+    for (let i = 0; i < 5; i++) {
+      createAmbientMotif();
+      if (activeParticles[i]) {
+        activeParticles[i].y = Math.random() * 80 + 10;
+        activeParticles[i].currentOpacity = activeParticles[i].targetOpacity;
+      }
+    }
+    ambientAnimationId = requestAnimationFrame(updateAmbientMotifs);
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal & Sheet Dialog Controller
+     -------------------------------------------------------------------------- */
+  let activeModal = null;
+  let previouslyFocused = null;
+
+  function openModal(modalEl, triggerBtn) {
+    if (!modalEl) return;
+    initAudio();
+    playIceChime();
+
+    previouslyFocused = triggerBtn || document.activeElement;
+    activeModal = modalEl;
+
+    const backdrop = document.getElementById("modal-backdrop");
+    if (backdrop) backdrop.classList.add("is-active");
+
+    modalEl.hidden = false;
+    void modalEl.offsetHeight; // force reflow
+    modalEl.classList.add("is-open");
+
+    if (triggerBtn) {
+      triggerBtn.setAttribute("aria-expanded", "true");
+    }
+
+    const focusable = modalEl.querySelector("button, [href], input, [tabindex]:not([tabindex='-1'])");
+    if (focusable) focusable.focus();
+
+    document.addEventListener("keydown", handleKeydown);
+  }
+
+  function closeModal() {
+    if (!activeModal) return;
+    playSound(380, "sine", 0.04, 0.6);
+
+    const backdrop = document.getElementById("modal-backdrop");
+    if (backdrop) backdrop.classList.remove("is-active");
+
+    activeModal.classList.remove("is-open");
+
+    const closingModal = activeModal;
     setTimeout(() => {
-      this.isReady = true;
-    }, tiles.length * CONFIG.timings.gridStaggerDelay + 150);
+      if (!closingModal.classList.contains("is-open")) {
+        closingModal.hidden = true;
+      }
+    }, 280);
+
+    const btnSettings = document.getElementById("btn-settings");
+    const btnDonate = document.getElementById("btn-donate");
+    if (btnSettings) btnSettings.setAttribute("aria-expanded", "false");
+    if (btnDonate) btnDonate.setAttribute("aria-expanded", "false");
+
+    if (previouslyFocused && typeof previouslyFocused.focus === "function") {
+      previouslyFocused.focus();
+    }
+
+    activeModal = null;
+    document.removeEventListener("keydown", handleKeydown);
   }
 
-  bypassIntro() {
-    if (this.introOverlay) this.introOverlay.classList.add("dismissed");
-    if (this.headerElement) this.headerElement.classList.add("revealed");
-
-    const tiles = this.gridElement.querySelectorAll(".glass-tile");
-    tiles.forEach((tile) => tile.classList.add("revealed"));
-    this.isReady = true;
+  function handleKeydown(e) {
+    if (e.key === "Escape") {
+      closeModal();
+    }
   }
-}
 
-// ==========================================================================
-// 5. APPLICATION BOOTSTRAP
-// ==========================================================================
-document.addEventListener("DOMContentLoaded", () => {
-  window.TileworksApp = new TileworksHubController();
-});
+  /* --------------------------------------------------------------------------
+     Setup Interactions
+     -------------------------------------------------------------------------- */
+  function applyAnimationState() {
+    if (state.animations) {
+      document.body.classList.remove("animations-disabled");
+      startAmbientSystem();
+    } else {
+      document.body.classList.add("animations-disabled");
+      clearAmbientMotifs();
+    }
+  }
+
+  function setupInteractions() {
+    // Utility buttons
+    const btnInstagram = document.getElementById("btn-instagram");
+    const btnSettings = document.getElementById("btn-settings");
+    const btnDonate = document.getElementById("btn-donate");
+
+    // Modals
+    const modalSettings = document.getElementById("settings-modal");
+    const modalDonate = document.getElementById("donate-modal");
+    const btnCloseSettings = document.getElementById("close-settings");
+    const btnCloseDonate = document.getElementById("close-donate");
+    const backdrop = document.getElementById("modal-backdrop");
+
+    // Form inputs
+    const soundToggle = document.getElementById("toggle-sound");
+    const animToggle = document.getElementById("toggle-animations");
+    const stripeLink = document.getElementById("stripe-donate-link");
+
+    // Initialize toggle state
+    if (soundToggle) soundToggle.checked = state.sound;
+    if (animToggle) animToggle.checked = state.animations;
+    applyAnimationState();
+
+    // Instagram Tile Click Sound (stone crack)
+    if (btnInstagram) {
+      btnInstagram.addEventListener("click", () => {
+        playSound(620, "triangle", 0.05, 0.7);
+      });
+    }
+
+    // Settings Toggle Handlers
+    if (soundToggle) {
+      soundToggle.addEventListener("change", (e) => {
+        state.sound = e.target.checked;
+        saveSettings();
+        if (state.sound) playSound(640, "sine", 0.05, 0.95);
+      });
+    }
+
+    if (animToggle) {
+      animToggle.addEventListener("change", (e) => {
+        state.animations = e.target.checked;
+        saveSettings();
+        applyAnimationState();
+        playSound(520, "sine", 0.04, 0.85);
+      });
+    }
+
+    // Modal Trigger Listeners
+    if (btnSettings && modalSettings) {
+      btnSettings.addEventListener("click", () => openModal(modalSettings, btnSettings));
+    }
+
+    if (btnDonate && modalDonate) {
+      btnDonate.addEventListener("click", () => openModal(modalDonate, btnDonate));
+    }
+
+    if (btnCloseSettings) {
+      btnCloseSettings.addEventListener("click", closeModal);
+    }
+
+    if (btnCloseDonate) {
+      btnCloseDonate.addEventListener("click", closeModal);
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener("click", closeModal);
+    }
+
+    // Audio feedback for Stripe Donate Link
+    if (stripeLink) {
+      stripeLink.addEventListener("click", () => {
+        playIceChime();
+      });
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Initialization
+     -------------------------------------------------------------------------- */
+  function init() {
+    loadSettings();
+    renderGrid();
+    setupInteractions();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
