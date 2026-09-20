@@ -1,55 +1,62 @@
 /* ==========================================================================
-   ADVANCED LIGHT NEO-BRUTALIST CANADIAN CURLING SPORT DESIGN SYSTEM
+   CANADIAN CURLING ICE HOUSE DESIGN SYSTEM — ICE HOUSE ROYALE
+   MODERN SOFT NEO-BRUTALISM + ELEVATED HOUSE + AUTHORED RINK ATMOSPHERE
    ========================================================================== */
 
 :root {
-  /* Ice Palette Foundation */
-  --ice-bg-primary: #f8fcff;
-  --ice-bg-secondary: #eef7fc;
-  --ice-sheet-white: #ffffff;
-  --ice-pale-blue: #dceefb;
-  --ice-glaze: rgba(248, 252, 255, 0.82);
-  --ice-glass-border: rgba(11, 28, 45, 0.16);
+  /* Layer 1: Near-White Ice Foundation & Glacial Palette */
+  --ice-white: #f7fcff;
+  --ice-blue-glacial: #eef8ff;
+  --ice-blue-soft: #ddeeff;
+  --ice-shadow: #b9cfe3;
+  --ice-frost: rgba(247, 252, 255, 0.88);
 
-  /* Very Dark Blue Structure (Curling Lines & Scoring Hardware) */
-  --dark-marking-blue: #0b1c2d;
-  --dark-slate-blue: #162b40;
-  --mid-ice-blue: #4d6880;
-  --subtle-marking-blue: #7d96ae;
-  --ice-line-blue: #235882;
+  /* Layer 2: Royal Blue Rink Geometry & Structural Borders */
+  --rink-blue-deep: #0b2450;
+  --rink-blue-royal: #123b72;
+  --rink-blue-mid: #1e4f8f;
+  --rink-blue-accent: #4d8fc5;
+  --rink-line-subtle: rgba(18, 59, 114, 0.18);
 
-  /* Canadian Red Identity */
-  --canadian-red: #d71920;
-  --canadian-red-deep: #b51218;
-  --canadian-red-soft: rgba(215, 25, 32, 0.1);
+  /* Layer 3: Authentic Stone Families */
+  --rock-red-primary: #c8102e;
+  --rock-red-dark: #8b0f24;
+  --rock-red-bg: #feece9;
+  --rock-yellow-primary: #ffd52a;
+  --rock-yellow-dark: #c99a00;
+  --rock-yellow-bg: #fef7e6;
 
-  /* Vivid Stone Colours */
-  --stone-red: #ff2b30;
-  --stone-red-halo: rgba(255, 43, 48, 0.22);
-  --stone-yellow: #ffc400;
-  --stone-yellow-bright: #ffd83d;
-  --stone-yellow-halo: rgba(255, 196, 0, 0.25);
+  /* Layer 4: Canadian Identity Deep Red */
+  --canadian-maple-red: #c8102e;
 
-  /* Borders & Advanced Neo-Brutalist Shadows */
-  --border-width: 2px;
+  /* Layer 5: Premium Supporting Materials */
+  --satin-steel: #718296;
+  --satin-steel-light: #d4dee8;
+  --rink-rubber-graphite: #111923;
+  --dark-slate-text: #17324c;
+  --mid-ice-text: #4a627a;
+
+  /* Modern Soft Neo-Brutalist Dimensions & Radii */
+  --border-width: 1.75px;
   --border-style: solid;
-  --border-color: var(--dark-marking-blue);
-  --radius-xs: 6px;
-  --radius-sm: 9px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --border-color: var(--rink-blue-deep);
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
 
-  --shadow-depth: 4px;
-  --shadow: 0 var(--shadow-depth) 0 var(--dark-marking-blue);
-  --shadow-hover: 0 calc(var(--shadow-depth) + 1.5px) 0 var(--dark-marking-blue);
-  --shadow-active: 0 1px 0 var(--dark-marking-blue);
-  --shadow-sheet: 0 -8px 32px rgba(11, 28, 45, 0.16);
-  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(11, 28, 45, 0.05);
+  /* Soft Offset Layered Shadows */
+  --shadow-depth: 3px;
+  --shadow: 0 var(--shadow-depth) 0 var(--rink-blue-deep);
+  --shadow-hover: 0 calc(var(--shadow-depth) + 1.5px) 0 var(--rink-blue-deep);
+  --shadow-active: 0 1px 0 var(--rink-blue-deep);
+  --shadow-sheet: 0 -8px 30px rgba(11, 36, 80, 0.22);
+  --shadow-tile: 0 4px 0 var(--rink-blue-deep), 0 10px 24px rgba(18, 59, 114, 0.08);
 
-  /* Dimensions & Timing */
-  --max-width: 448px;
+  /* Layout & Animation */
+  --max-width: 440px;
   --transition-speed: 140ms;
-  --transition-smooth: 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after {
@@ -59,189 +66,81 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--ice-bg-primary);
-  background-image: 
-    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(220, 238, 251, 0.6) 0%, rgba(248, 252, 255, 0) 70%),
-    linear-gradient(180deg, #f8fcff 0%, #edf6fc 100%);
-  color: var(--dark-marking-blue);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--ice-blue-glacial);
+  color: var(--rink-rubber-graphite);
   line-height: 1.4;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(14px, 3.5vw, 24px);
-  padding-top: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-top, 0px));
-  padding-bottom: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-bottom, 0px));
-  padding-left: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-left, 0px));
-  padding-right: calc(clamp(14px, 3.5vw, 24px) + env(safe-area-inset-right, 0px));
-  position: relative;
+  padding: clamp(12px, 3vw, 22px);
+  padding-top: calc(clamp(12px, 3vw, 22px) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(clamp(12px, 3vw, 22px) + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(clamp(12px, 3vw, 22px) + env(safe-area-inset-left, 0px));
+  padding-right: calc(clamp(12px, 3vw, 22px) + env(safe-area-inset-right, 0px));
   overflow-x: hidden;
+  position: relative;
 }
 
 /* ==========================================================================
-   RINK ATMOSPHERE & BACKGROUND LIGHTING
+   LAYER 0: ATMOSPHERIC CURLING CANVAS & RINK LIGHTING OVERLAY
    ========================================================================== */
 
-.rink-atmosphere {
+.curling-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rink-ambient-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(255, 255, 255, 0.45) 0%, transparent 65%),
+    radial-gradient(circle at 15% 10%, rgba(221, 238, 255, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(185, 207, 227, 0.25) 0%, transparent 45%);
 }
 
-/* Painted House (Curling Rings) Ice Watermark */
-.ice-house-watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -52%);
-  width: 540px;
-  height: 540px;
-  opacity: 0.16;
-  filter: blur(0.5px);
+/* High Visibility Focus for Full WCAG Contrast */
+:focus-visible {
+  outline: 2.5px solid var(--rink-blue-royal) !important;
+  outline-offset: 2.5px !important;
+  box-shadow: 0 0 0 2px var(--ice-white), var(--shadow) !important;
 }
-
-.ice-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.ring-12ft {
-  width: 520px;
-  height: 520px;
-  border: 18px solid var(--ice-line-blue);
-  background-color: rgba(35, 88, 130, 0.03);
-}
-
-.ring-8ft {
-  width: 350px;
-  height: 350px;
-  border: 14px solid var(--ice-sheet-white);
-  background-color: transparent;
-}
-
-.ring-4ft {
-  width: 190px;
-  height: 190px;
-  border: 14px solid var(--canadian-red);
-  background-color: rgba(215, 25, 32, 0.04);
-}
-
-.ring-button {
-  width: 50px;
-  height: 50px;
-  background-color: var(--ice-sheet-white);
-  border: 3px solid var(--dark-marking-blue);
-}
-
-.ice-tee-line {
-  position: absolute;
-  top: 50%;
-  left: -200px;
-  right: -200px;
-  height: 2px;
-  background-color: var(--canadian-red);
-  opacity: 0.7;
-}
-
-.ice-centre-line {
-  position: absolute;
-  top: -200px;
-  bottom: -200px;
-  left: 50%;
-  width: 2px;
-  background-color: var(--dark-marking-blue);
-  opacity: 0.6;
-}
-
-/* Rink Light Reflections */
-.rink-reflection {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(48px);
-  opacity: 0.45;
-  animation: rinkLightFloat 18s ease-in-out infinite alternate;
-}
-
-.reflection-1 {
-  width: 480px;
-  height: 480px;
-  top: -10%;
-  left: -10%;
-  background: radial-gradient(circle, rgba(220, 238, 251, 0.8) 0%, rgba(248, 252, 255, 0) 70%);
-}
-
-.reflection-2 {
-  width: 540px;
-  height: 540px;
-  bottom: -15%;
-  right: -15%;
-  background: radial-gradient(circle, rgba(215, 25, 32, 0.06) 0%, rgba(255, 196, 0, 0.04) 35%, rgba(248, 252, 255, 0) 70%);
-  animation-duration: 24s;
-  animation-direction: alternate-reverse;
-}
-
-@keyframes rinkLightFloat {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(40px, 30px) scale(1.08);
-  }
-}
-
-.rink-vignette {
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 0 110px rgba(11, 28, 45, 0.05);
-}
-
-/* Floating Ambient Curling Motifs Stage */
-.curling-ambient-stage {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.floating-curling-item {
-  position: absolute;
-  will-change: transform, opacity;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.floating-curling-item svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* ==========================================================================
-   HUB WRAPPER & LAYOUT
-   ========================================================================== */
 
 .hub-wrapper {
   position: relative;
-  z-index: 10;
+  z-index: 2;
   width: 100%;
   max-width: var(--max-width);
   display: flex;
   flex-direction: column;
-  gap: clamp(14px, 2.8vh, 20px);
+  gap: clamp(10px, 2.2vh, 18px);
   margin: auto;
 }
 
 /* ==========================================================================
-   CHAMPIONSHIP HEADER & SCOREBOARD
+   HEADER WITH CANADIAN EMBLEM & DISPLAY TYPOGRAPHY
    ========================================================================== */
 
 .hub-header {
@@ -249,252 +148,164 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
-.header-championship-badge {
+.hub-emblem {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 4px 11px;
-  background-color: var(--ice-sheet-white);
-  border: 1.5px solid var(--dark-marking-blue);
-  border-radius: 30px;
-  box-shadow: 0 2px 0 var(--dark-marking-blue);
+  gap: 6px;
+  background-color: var(--ice-white);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
+  border-radius: var(--radius-pill);
+  padding: 3px 12px;
+  box-shadow: 0 2px 0 var(--rink-blue-deep);
   margin-bottom: 6px;
 }
 
-.badge-leaf {
-  width: 14px;
-  height: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.hub-emblem-leaf {
+  font-size: 13px;
+  line-height: 1;
 }
 
-.svg-maple-leaf {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.badge-text {
+.hub-emblem-text {
   font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--dark-marking-blue);
+  letter-spacing: 0.12em;
+  color: var(--rink-blue-royal);
   text-transform: uppercase;
 }
 
-.badge-stone-dots {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-left: 2px;
-}
-
-.stone-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1px solid var(--dark-marking-blue);
-}
-
-.stone-dot.red-dot {
-  background-color: var(--stone-red);
-}
-
-.stone-dot.yellow-dot {
-  background-color: var(--stone-yellow);
-}
-
-.title-container {
-  position: relative;
-  display: inline-block;
-}
-
 .hub-title {
-  font-size: clamp(1.6rem, 5.2vw, 2.05rem);
-  font-weight: 900;
-  letter-spacing: -0.035em;
-  color: var(--dark-marking-blue);
-  text-transform: none;
-  position: relative;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-/* Subtle Ice-Line Light Sweep Across Title */
-.title-light-sweep {
-  position: absolute;
-  top: 0;
-  left: -40%;
-  width: 35%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-  transform: skewX(-25deg);
-  pointer-events: none;
-  animation: titleSweep 9s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-
-@keyframes titleSweep {
-  0%, 75% {
-    left: -50%;
-    opacity: 0;
-  }
-  80% {
-    opacity: 1;
-  }
-  90%, 100% {
-    left: 130%;
-    opacity: 0;
-  }
-}
-
-/* Scoreboard Divider */
-.scoreboard-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 260px;
-  margin-top: 4px;
-}
-
-.divider-line {
-  flex: 1;
-  height: 1.5px;
-  background-color: var(--subtle-marking-blue);
-  opacity: 0.5;
-}
-
-.divider-marker {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: 1px solid var(--dark-marking-blue);
-}
-
-.divider-marker.red-stone-marker {
-  background-color: var(--stone-red);
-}
-
-.divider-marker.yellow-stone-marker {
-  background-color: var(--stone-yellow);
-}
-
-.divider-center {
-  font-size: 0.65rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.85rem, 5.8vw, 2.35rem);
   font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--mid-ice-blue);
+  letter-spacing: -0.02em;
+  color: var(--rink-blue-deep);
+  line-height: 1.1;
 }
 
 .hub-subtitle {
-  font-size: 0.88rem;
-  color: var(--mid-ice-blue);
+  font-size: clamp(0.82rem, 2.4vw, 0.92rem);
+  color: var(--mid-ice-text);
   margin-top: 4px;
   font-weight: 600;
 }
 
+.header-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 120px;
+  margin-top: 8px;
+}
+
+.rule-line {
+  flex: 1;
+  height: 1.5px;
+  background-color: var(--rink-line-subtle);
+}
+
+.rule-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--canadian-maple-red);
+}
+
 /* ==========================================================================
-   GAME GRID (3x3) & ICE TILES
+   GAME GRID (3x3 Semantic List - Soft Neo-Brutalist Rink Panels)
    ========================================================================== */
 
 .hub-main {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .game-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(10px, 2.6vw, 14px);
+  gap: clamp(8px, 2.4vw, 14px);
   width: 100%;
 }
 
 .grid-cell {
   aspect-ratio: 1 / 1;
   display: flex;
+  position: relative;
 }
 
-/* Tactile Ice Game Tile */
+/* Tactile Game Tile with Specular Top-Edge */
 .tile {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 8px;
+  gap: 5px;
+  padding: clamp(6px, 1.8vw, 10px);
   min-height: 48px;
   min-width: 48px;
-  background: linear-gradient(175deg, var(--ice-sheet-white) 0%, #f3f9fd 100%);
-  border: var(--border-width) var(--border-style) var(--border-color);
+  background-color: var(--ice-frost);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow), var(--shadow-glass);
+  box-shadow: var(--shadow-tile);
   text-decoration: none;
-  color: var(--dark-marking-blue);
+  color: var(--rink-rubber-graphite);
   cursor: pointer;
   user-select: none;
-  position: relative;
-  overflow: hidden;
   transform: translateY(0);
-  transition: transform var(--transition-speed) cubic-bezier(0.2, 0.9, 0.3, 1),
-              box-shadow var(--transition-speed) cubic-bezier(0.2, 0.9, 0.3, 1),
-              background var(--transition-speed) ease,
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              background-color var(--transition-speed) ease,
               border-color var(--transition-speed) ease;
+  overflow: hidden;
 }
 
-/* Subtle Ice-Reflective Top Highlight */
+/* Specular Ice Glass Top Reflection */
 .tile::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%);
+  height: 3px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.85), rgba(221,238,255,0.4));
   pointer-events: none;
 }
 
-/* Tactile Hover: Subtle Rise, crisp shadow, warm edge illumination */
 @media (hover: hover) {
   .tile:hover {
-    background: linear-gradient(175deg, #ffffff 0%, #ebf5fc 100%);
+    background-color: var(--ice-white);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-hover), 0 0 14px var(--canadian-red-soft);
-    border-color: var(--dark-slate-blue);
+    box-shadow: 0 5px 0 var(--rink-blue-deep), 0 12px 26px rgba(18, 59, 114, 0.14);
+    border-color: var(--rink-blue-royal);
   }
 }
 
-/* Tactile Stone Interaction Impact: Compression with solid equipment feedback */
 .tile:active {
-  transform: translateY(calc(var(--shadow-depth) - 1.5px)) scale(0.985);
+  transform: translateY(calc(var(--shadow-depth) - 1px));
   box-shadow: var(--shadow-active);
-  background: #edf6fd;
+  background-color: var(--ice-blue-glacial);
 }
 
-.tile:focus-visible {
-  outline: 2.5px solid var(--canadian-red);
-  outline-offset: 3px;
-}
-
+/* Rink-Crafted Icon Container */
 .tile-icon {
-  width: 32px;
-  height: 32px;
+  width: clamp(34px, 8.5vw, 40px);
+  height: clamp(34px, 8.5vw, 40px);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--dark-marking-blue);
-  transition: transform var(--transition-speed) ease, color var(--transition-speed) ease;
-}
-
-.tile:hover .tile-icon {
-  color: var(--canadian-red);
-  transform: scale(1.06);
+  color: var(--rink-blue-deep);
+  transition: transform var(--transition-speed) ease;
 }
 
 .tile-icon svg {
@@ -507,20 +318,86 @@ body {
   fill: none;
 }
 
+/* Scaled Game Title */
 .tile-label {
-  font-size: clamp(0.72rem, 2.2vw, 0.82rem);
+  font-size: clamp(0.85rem, 2.7vw, 0.98rem);
   font-weight: 800;
+  letter-spacing: -0.015em;
   text-align: center;
   line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--dark-marking-blue);
+  color: var(--rink-blue-deep);
 }
 
-/* Empty Slot */
-.grid-cell.is-empty {
-  border: var(--border-width) dashed var(--subtle-marking-blue);
-  border-radius: var(--radius-md);
-  background-color: rgba(220, 238, 251, 0.3);
+/* Descriptor */
+.tile-desc {
+  font-size: clamp(0.68rem, 2.1vw, 0.78rem);
+  color: var(--mid-ice-text);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 92%;
+}
+
+/* Visual loading animation when tapped */
+.tile.is-loading .tile-icon {
+  animation: tileIconSpin 0.7s linear infinite;
+}
+
+@keyframes tileIconSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Daily Completed Checkmark Badge */
+.tile-badge-done {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--rock-yellow-bg);
+  border: 1.6px solid var(--rink-blue-deep);
+  color: var(--rock-yellow-dark);
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Recently Played Badge */
+.tile-badge-recent {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 1.5px 6px;
+  border-radius: var(--radius-xs);
+  background-color: var(--ice-white);
+  border: 1.4px solid var(--rink-blue-deep);
+  color: var(--dark-slate-text);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* Disabled / Coming Soon Slot */
+.tile-disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+  background-color: rgba(221, 238, 255, 0.45);
+  border-style: dashed;
+}
+
+.tile-disabled:hover, .tile-disabled:active {
+  transform: none;
+  box-shadow: var(--shadow-tile);
+  background-color: rgba(221, 238, 255, 0.45);
 }
 
 /* ==========================================================================
@@ -532,79 +409,53 @@ body {
   justify-content: center;
   align-items: center;
   gap: 16px;
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 .utility-tile {
   position: relative;
-  width: 52px;
-  height: 52px;
-  flex: 0 0 52px;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(175deg, var(--ice-sheet-white) 0%, #f2f8fd 100%);
-  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  background-color: var(--ice-frost);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
-  color: var(--dark-marking-blue);
+  color: var(--rink-blue-deep);
   cursor: pointer;
   text-decoration: none;
   transform: translateY(0);
   transition: transform var(--transition-speed) ease,
               box-shadow var(--transition-speed) ease,
-              background-color var(--transition-speed) ease,
-              border-color var(--transition-speed) ease;
+              background-color var(--transition-speed) ease;
   overflow: hidden;
   padding: 0;
 }
 
-/* Stone Color Indicator Ring Corner */
-.tile-stone-indicator {
+.utility-tile::after {
+  content: "";
   position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: 1px solid var(--dark-marking-blue);
-}
-
-.tile-stone-indicator.red {
-  background-color: var(--stone-red);
-}
-
-.tile-stone-indicator.yellow {
-  background-color: var(--stone-yellow);
+  inset: -8px;
+  z-index: 1;
 }
 
 @media (hover: hover) {
   .utility-tile:hover {
-    background: #ffffff;
-    transform: translateY(-2px);
+    background-color: var(--ice-white);
+    transform: translateY(-1.5px);
     box-shadow: var(--shadow-hover);
-  }
-  
-  .utility-tile[data-stone="red"]:hover {
-    box-shadow: var(--shadow-hover), 0 0 12px var(--stone-red-halo);
-    border-color: var(--canadian-red);
-  }
-
-  .utility-tile[data-stone="yellow"]:hover {
-    box-shadow: var(--shadow-hover), 0 0 12px var(--stone-yellow-halo);
-    border-color: #d19f00;
   }
 }
 
 .utility-tile:active {
-  transform: translateY(calc(var(--shadow-depth) - 1.5px)) scale(0.97);
+  transform: translateY(calc(var(--shadow-depth) - 1px));
   box-shadow: var(--shadow-active);
-}
-
-.utility-tile:focus-visible {
-  outline: 2.5px solid var(--canadian-red);
-  outline-offset: 3px;
 }
 
 .utility-icon {
@@ -614,6 +465,7 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
+  pointer-events: none;
 }
 
 .utility-icon svg {
@@ -626,136 +478,107 @@ body {
   fill: none;
 }
 
-/* 1. Camera Flash Animation */
+/* Camera Flash Animation */
 .camera-flash-core {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 75%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.75) 45%, rgba(255, 255, 255, 0) 75%);
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.2);
-  animation: cameraFlashBurst 6.8s cubic-bezier(0.12, 0.85, 0.35, 1) infinite;
 }
 
 .camera-flash-ring {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.9);
   pointer-events: none;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.4);
-  animation: cameraFlashRing 6.8s ease-out infinite;
+  transform: translate(-50%, -50%) scale(0.3);
+}
+
+.tile-instagram:hover .camera-flash-core,
+.tile-instagram:active .camera-flash-core,
+.tile-instagram:focus-visible .camera-flash-core {
+  animation: cameraFlashBurst 600ms cubic-bezier(0.12, 0.85, 0.35, 1) forwards;
+}
+
+.tile-instagram:hover .camera-flash-ring,
+.tile-instagram:active .camera-flash-ring,
+.tile-instagram:focus-visible .camera-flash-ring {
+  animation: cameraFlashRing 600ms ease-out forwards;
 }
 
 @keyframes cameraFlashBurst {
-  0%, 86%, 100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.2);
-  }
-  88% {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  90% {
-    opacity: 0.25;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
-  92% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.15);
-  }
-  96% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5);
-  }
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  25% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.1); }
+  50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.25); }
+  75% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.15); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.4); }
 }
 
 @keyframes cameraFlashRing {
-  0%, 86%, 100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.4);
-  }
-  92% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) scale(1.25);
-  }
-  96% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.6);
-  }
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  40% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
 }
 
-/* 2. Gear Turning Slowly */
+/* Gear Turning */
 .svg-gear {
   transform-origin: center center;
   animation: slowGearTurn 18s linear infinite;
 }
 
 @keyframes slowGearTurn {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* 3. Beating Heart with Canadian Red */
+/* Heartbeat */
 .svg-heart {
   transform-origin: center center;
   animation: organicHeartbeat 3.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-  color: var(--dark-marking-blue);
+  color: var(--rink-blue-deep);
   transition: color var(--transition-speed) ease;
 }
 
 .tile-donate:hover .svg-heart {
-  color: var(--canadian-red);
+  color: var(--canadian-maple-red);
 }
 
 @keyframes organicHeartbeat {
-  0%, 65%, 100% {
-    transform: scale(1);
-  }
-  70% {
-    transform: scale(1.18);
-  }
-  75% {
-    transform: scale(1.04);
-  }
-  82% {
-    transform: scale(1.15);
-  }
-  90% {
-    transform: scale(1);
-  }
+  0%, 65%, 100% { transform: scale(1); }
+  70% { transform: scale(1.18); }
+  75% { transform: scale(1.04); }
+  82% { transform: scale(1.15); }
+  90% { transform: scale(1); }
 }
 
-/* Body Animation Toggle State */
+/* Motion disabled override */
 body.animations-disabled .camera-flash-core,
 body.animations-disabled .camera-flash-ring,
 body.animations-disabled .svg-gear,
 body.animations-disabled .svg-heart,
-body.animations-disabled .title-light-sweep,
-body.animations-disabled .rink-reflection {
+body.animations-disabled .tile.is-loading .tile-icon {
   animation: none !important;
 }
 
 /* ==========================================================================
-   MODAL BACKDROP & ICE-GLASS BOTTOM SHEETS
+   MODAL BACKDROP & ICE GLASS BOTTOM SHEETS
    ========================================================================== */
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(11, 28, 45, 0.45);
+  background-color: rgba(11, 36, 80, 0.4);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 90;
@@ -769,7 +592,6 @@ body.animations-disabled .rink-reflection {
   visibility: visible;
 }
 
-/* Secondary Material: Refined Ice-Glass Panel with Neo-Brutalist Border */
 .modal-sheet {
   position: fixed;
   left: 50%;
@@ -777,19 +599,18 @@ body.animations-disabled .rink-reflection {
   transform: translate(-50%, 100%);
   width: 100%;
   max-width: var(--max-width);
-  background: var(--ice-glaze);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: var(--border-width) var(--border-style) var(--dark-marking-blue);
-  border-left: var(--border-width) var(--border-style) var(--dark-marking-blue);
-  border-right: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  background-color: var(--ice-white);
+  border-top: var(--border-width) var(--border-style) var(--rink-blue-deep);
+  border-left: var(--border-width) var(--border-style) var(--rink-blue-deep);
+  border-right: var(--border-width) var(--border-style) var(--rink-blue-deep);
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
   box-shadow: var(--shadow-sheet);
-  padding: 16px 22px calc(24px + env(safe-area-inset-bottom, 0px));
+  padding: 14px 20px calc(20px + env(safe-area-inset-bottom, 0px));
   z-index: 100;
   visibility: hidden;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), visibility 280ms ease;
+  touch-action: pan-y;
+  transition: transform 280ms cubic-bezier(0.34, 1.25, 0.64, 1), visibility 280ms ease;
 }
 
 .modal-sheet.is-open {
@@ -799,63 +620,61 @@ body.animations-disabled .rink-reflection {
 
 .sheet-handle {
   width: 42px;
-  height: 4.5px;
-  background-color: var(--subtle-marking-blue);
+  height: 5px;
+  background-color: var(--satin-steel-light);
   border-radius: 3px;
-  margin: 0 auto 14px;
+  margin: 0 auto 12px;
+  cursor: grab;
+}
+
+.sheet-handle:active {
+  cursor: grabbing;
 }
 
 .sheet-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
-.sheet-header-title-group {
+.sheet-title-group {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.sheet-curling-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--canadian-red);
-  border: 1.5px solid var(--dark-marking-blue);
+.sheet-leaf {
+  font-size: 1.1rem;
 }
 
 .sheet-title {
-  font-size: 1.25rem;
-  font-weight: 850;
-  letter-spacing: -0.02em;
-  color: var(--dark-marking-blue);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--rink-blue-deep);
 }
 
 .sheet-close {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-sm);
-  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
-  background-color: var(--ice-sheet-white);
-  box-shadow: 0 2px 0 var(--dark-marking-blue);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
+  background-color: var(--ice-blue-glacial);
+  box-shadow: 0 2px 0 var(--rink-blue-deep);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--dark-marking-blue);
+  color: var(--rink-blue-deep);
   padding: 0;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
-}
-
-.sheet-close:hover {
-  background-color: var(--ice-pale-blue);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .sheet-close:active {
   transform: translateY(1.5px);
-  box-shadow: 0 0.5px 0 var(--dark-marking-blue);
+  box-shadow: 0 0.5px 0 var(--rink-blue-deep);
 }
 
 .sheet-close svg {
@@ -866,13 +685,13 @@ body.animations-disabled .rink-reflection {
   stroke-linecap: round;
 }
 
-/* Settings Controls */
+/* Setting Rows */
 .setting-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(11, 28, 45, 0.1);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--satin-steel-light);
 }
 
 .setting-row:last-child {
@@ -885,23 +704,22 @@ body.animations-disabled .rink-reflection {
 }
 
 .setting-label {
-  font-size: 0.96rem;
-  font-weight: 800;
-  color: var(--dark-marking-blue);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--rink-blue-deep);
 }
 
 .setting-desc {
-  font-size: 0.78rem;
-  color: var(--mid-ice-blue);
+  font-size: 0.76rem;
+  color: var(--mid-ice-text);
   margin-top: 2px;
-  font-weight: 500;
 }
 
-/* Custom Neo-Brutalist Toggle with Stone Feeling */
+/* Custom Neo-Brutalist Toggle */
 .switch {
   position: relative;
   display: inline-block;
-  width: 50px;
+  width: 48px;
   height: 28px;
   flex-shrink: 0;
 }
@@ -916,8 +734,8 @@ body.animations-disabled .rink-reflection {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background-color: var(--ice-pale-blue);
-  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  background-color: var(--ice-blue-soft);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
   border-radius: 30px;
   transition: background-color var(--transition-speed) ease;
 }
@@ -929,24 +747,18 @@ body.animations-disabled .rink-reflection {
   width: 16px;
   left: 4px;
   bottom: 4px;
-  background-color: var(--dark-marking-blue);
+  background-color: var(--rink-blue-deep);
   border-radius: 50%;
-  transition: transform var(--transition-speed) cubic-bezier(0.3, 1.25, 0.4, 1), background-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.3, 1.25, 0.4, 1);
 }
 
 .switch input:checked + .slider {
-  background-color: var(--ice-sheet-white);
-  border-color: var(--dark-marking-blue);
+  background-color: var(--ice-white);
 }
 
 .switch input:checked + .slider::before {
-  transform: translateX(22px);
-  background-color: var(--canadian-red);
-}
-
-.switch input:focus-visible + .slider {
-  outline: 2.5px solid var(--canadian-red);
-  outline-offset: 2px;
+  transform: translateX(20px);
+  background-color: var(--rink-blue-royal);
 }
 
 /* Donate Sheet Details */
@@ -960,72 +772,62 @@ body.animations-disabled .rink-reflection {
 }
 
 .donate-badge {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-sm);
-  background-color: var(--canadian-red-soft);
-  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  background-color: var(--rock-red-bg);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--canadian-red);
-  flex-shrink: 0;
-}
-
-.svg-donate-leaf {
-  width: 22px;
-  height: 22px;
-  display: block;
+  font-size: 1.15rem;
 }
 
 .donate-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .donate-intro {
-  font-size: 0.94rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 600;
   line-height: 1.45;
-  color: var(--dark-marking-blue);
+  color: var(--rink-rubber-graphite);
 }
 
 .donate-sub {
-  font-size: 0.84rem;
-  line-height: 1.42;
-  color: var(--mid-ice-blue);
-  font-weight: 500;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--mid-ice-text);
 }
 
-/* Call to Action: Canadian Red Championship Button */
 .donate-action-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 8px;
-  padding: 13px 20px;
-  background-color: var(--canadian-red);
-  color: var(--ice-sheet-white);
+  margin-top: 6px;
+  padding: 12px 18px;
+  background-color: var(--canadian-maple-red);
+  color: var(--ice-white);
   text-decoration: none;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 800;
   border-radius: var(--radius-md);
-  border: var(--border-width) var(--border-style) var(--dark-marking-blue);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
   box-shadow: var(--shadow);
   transition: transform var(--transition-speed) ease,
               box-shadow var(--transition-speed) ease,
               background-color var(--transition-speed) ease;
   cursor: pointer;
-  letter-spacing: -0.01em;
 }
 
 @media (hover: hover) {
   .donate-action-btn:hover {
-    background-color: var(--canadian-red-deep);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--dark-marking-blue), 0 0 16px var(--stone-red-halo);
+    background-color: var(--rock-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 var(--rink-blue-deep);
   }
 }
 
@@ -1038,89 +840,118 @@ body.animations-disabled .rink-reflection {
   width: 18px;
   height: 18px;
   stroke: currentColor;
-  stroke-width: 2.4;
+  stroke-width: 2.2;
   fill: none;
 }
 
 .donate-appreciation {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--mid-ice-blue);
+  color: var(--mid-ice-text);
   margin-top: 2px;
 }
 
 /* ==========================================================================
-   FOOTER
+   FOOTER (Tactile Pill Button with Maple Leaf)
    ========================================================================== */
 
 .hub-footer {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
   padding-top: 2px;
-}
-
-.footer-rink-line {
-  width: 48px;
-  height: 2px;
-  background-color: var(--subtle-marking-blue);
-  opacity: 0.4;
-  border-radius: 1px;
 }
 
 .footer-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--mid-ice-blue);
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--dark-slate-text);
+  background-color: var(--ice-white);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
   text-decoration: none;
-  padding: 4px 10px;
-  border-radius: var(--radius-xs);
-  transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease;
+  box-shadow: 0 2.5px 0 var(--rink-blue-deep);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .footer-leaf {
-  width: 12px;
-  height: 12px;
-  display: inline-flex;
-  color: var(--canadian-red);
-}
-
-.svg-footer-leaf {
-  width: 100%;
-  height: 100%;
+  font-size: 12px;
+  line-height: 1;
 }
 
 .footer-link:hover {
-  color: var(--dark-marking-blue);
-  background-color: rgba(220, 238, 251, 0.45);
+  background-color: var(--ice-blue-glacial);
+  transform: translateY(-1px);
+  box-shadow: 0 3.5px 0 var(--rink-blue-deep);
 }
 
-.footer-link:focus-visible {
-  outline: 2px solid var(--dark-marking-blue);
-  outline-offset: 2px;
+.footer-link:active {
+  transform: translateY(1.5px);
+  box-shadow: 0 0.5px 0 var(--rink-blue-deep);
+}
+
+.footer-ext-icon {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  fill: none;
 }
 
 /* ==========================================================================
-   ACCESSIBILITY & REDUCED MOTION
+   TOAST NOTIFICATION BANNER
    ========================================================================== */
 
-@media (max-height: 580px) {
+.toast-banner {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  max-width: 90%;
+  padding: 10px 18px;
+  background-color: var(--ice-white);
+  color: var(--rink-blue-deep);
+  border: var(--border-width) var(--border-style) var(--rink-blue-deep);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 0 var(--rink-blue-deep);
+  font-size: 0.88rem;
+  font-weight: 800;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 240ms cubic-bezier(0.34, 1.3, 0.64, 1), opacity 240ms ease;
+  text-align: center;
+}
+
+.toast-banner.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & RESPONSIVENESS
+   ========================================================================== */
+
+@media (max-height: 600px) {
   .hub-wrapper {
-    gap: 10px;
+    gap: 8px;
   }
   .tile {
     gap: 4px;
-    padding: 6px;
+    padding: 4px;
   }
   .tile-icon {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
+  }
+  .tile-label {
+    font-size: 0.80rem;
+  }
+  .tile-desc {
+    font-size: 0.66rem;
   }
   .utility-tile {
     width: 44px;
@@ -1139,9 +970,7 @@ body.animations-disabled .rink-reflection {
   .camera-flash-ring,
   .svg-gear,
   .svg-heart,
-  .title-light-sweep,
-  .rink-reflection,
-  .floating-curling-item {
+  .tile.is-loading .tile-icon {
     animation: none !important;
   }
 
@@ -1150,7 +979,9 @@ body.animations-disabled .rink-reflection {
   .utility-tile:hover,
   .utility-tile:active,
   .donate-action-btn:hover,
-  .donate-action-btn:active {
+  .donate-action-btn:active,
+  .footer-link:hover,
+  .footer-link:active {
     transform: none !important;
   }
 }

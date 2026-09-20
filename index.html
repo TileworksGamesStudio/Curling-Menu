@@ -3,86 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Curling Puzzles | A Tileworks Studio Collection</title>
+  <title>Game Collection 🍁 Ice House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;0,800;1,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Ambient Curling Ice Background & Arena Lighting Canvas -->
-  <div class="rink-atmosphere" aria-hidden="true">
-    <!-- Painted House (Rings) Ice Watermark -->
-    <div class="ice-house-watermark">
-      <div class="ice-ring ring-12ft"></div>
-      <div class="ice-ring ring-8ft"></div>
-      <div class="ice-ring ring-4ft"></div>
-      <div class="ice-ring ring-button"></div>
-      <div class="ice-tee-line"></div>
-      <div class="ice-centre-line"></div>
-    </div>
-    <!-- Moving Rink Light Reflections -->
-    <div class="rink-reflection reflection-1"></div>
-    <div class="rink-reflection reflection-2"></div>
-    <div class="rink-vignette"></div>
-    <!-- Floating Ambient Curling Icons & Maple Leaves Container -->
-    <div id="curling-ambient-stage" class="curling-ambient-stage"></div>
-  </div>
+  <!-- Atmospheric Curling Rink Sheet Canvas (Background Simulation) -->
+  <canvas id="curling-canvas" class="curling-canvas" aria-hidden="true"></canvas>
+
+  <!-- Ambient Rink Lighting Overlay & Meso Caustic Refraction -->
+  <div class="rink-ambient-overlay" aria-hidden="true"></div>
+
+  <!-- Visually hidden ARIA live announcer for screen readers -->
+  <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Toast notification banner for route and system feedback -->
+  <div id="toast-banner" class="toast-banner" role="status" aria-hidden="true"></div>
 
   <div class="hub-wrapper">
-    <!-- Tournament & Rink Championship Header -->
+    <!-- Header with Canadian Curling Ice House Art Direction -->
     <header class="hub-header">
-      <div class="header-championship-badge">
-        <span class="badge-leaf" aria-hidden="true">
-          <!-- Mandatory Supplied Maple Leaf SVG Geometry -->
-          <svg viewBox="0 0 298.72 341.12" class="svg-maple-leaf">
-            <g transform="translate(-250.85 -233.44)">
-              <path
-                d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
-                fill="#d71920"
-              />
-            </g>
-          </svg>
-        </span>
-        <span class="badge-text">CANADIAN SPORT SERIES</span>
-        <span class="badge-stone-dots" aria-hidden="true">
-          <span class="stone-dot red-dot"></span>
-          <span class="stone-dot yellow-dot"></span>
-        </span>
+      <div class="hub-emblem" aria-hidden="true">
+        <span class="hub-emblem-leaf">🍁</span>
+        <span class="hub-emblem-text">ICE HOUSE ROYALE</span>
       </div>
-
-      <div class="title-container">
-        <h1 class="hub-title">Game Collection</h1>
-        <div class="title-light-sweep" aria-hidden="true"></div>
+      <h1 class="hub-title">Game Collection</h1>
+      <p id="hub-subtitle" class="hub-subtitle">Select a game to play</p>
+      <div class="header-rule" aria-hidden="true">
+        <span class="rule-line"></span>
+        <span class="rule-dot"></span>
+        <span class="rule-line"></span>
       </div>
-      
-      <!-- Scoreboard Divider Line -->
-      <div class="scoreboard-divider" aria-hidden="true">
-        <span class="divider-line"></span>
-        <span class="divider-marker red-stone-marker"></span>
-        <span class="divider-center">ICE HUB</span>
-        <span class="divider-marker yellow-stone-marker"></span>
-        <span class="divider-line"></span>
-      </div>
-
-      <p class="hub-subtitle">Select a game to take the hammer</p>
     </header>
 
     <!-- Main Content Area -->
     <main class="hub-main">
-      <!-- 3x3 Game Grid -->
-      <div id="game-grid" class="game-grid" role="list" aria-label="Available Games">
-        <!-- Rendered dynamically by script.js -->
-      </div>
+      <!-- Semantic 3x3 Game List -->
+      <ul id="game-grid" class="game-grid" aria-label="Available Games">
+        <!-- Rendered dynamically and validated by script.js -->
+      </ul>
 
-      <!-- Secondary Companion Utility Tiles -->
+      <!-- Companion Utility Bar (Instagram, Settings, Donate) -->
       <nav class="utility-bar" aria-label="Quick Actions">
-        <!-- 1. Instagram Link with Camera Flash -->
+        <!-- 1. Instagram Link (Flash on hover/tap) -->
         <a 
-          href="https://www.instagram.com/tileworks_studio/" 
+          href="https://www.instagram.com/tileworks_studio" 
           target="_blank" 
           rel="noopener noreferrer" 
           class="utility-tile tile-instagram" 
           id="btn-instagram"
-          aria-label="Visit our Instagram"
-          data-stone="red"
+          aria-label="Visit our Instagram (opens in a new tab)"
         >
           <div class="utility-icon icon-camera" aria-hidden="true">
             <svg viewBox="0 0 24 24" class="svg-camera">
@@ -93,10 +65,9 @@
             <span class="camera-flash-ring"></span>
             <span class="camera-flash-core"></span>
           </div>
-          <span class="tile-stone-indicator red" aria-hidden="true"></span>
         </a>
 
-        <!-- 2. Settings with Smooth Rotating Gear -->
+        <!-- 2. Settings Sheet Trigger -->
         <button 
           type="button" 
           class="utility-tile tile-settings" 
@@ -104,7 +75,6 @@
           aria-label="Open Settings"
           aria-haspopup="dialog"
           aria-expanded="false"
-          data-stone="neutral"
         >
           <div class="utility-icon icon-gear" aria-hidden="true">
             <svg viewBox="0 0 24 24" class="svg-gear">
@@ -114,7 +84,7 @@
           </div>
         </button>
 
-        <!-- 3. Donate with Beating Heart -->
+        <!-- 3. Donate Sheet Trigger -->
         <button 
           type="button" 
           class="utility-tile tile-donate" 
@@ -122,41 +92,38 @@
           aria-label="Support and Donate"
           aria-haspopup="dialog"
           aria-expanded="false"
-          data-stone="yellow"
         >
           <div class="utility-icon icon-heart" aria-hidden="true">
             <svg viewBox="0 0 24 24" class="svg-heart">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
           </div>
-          <span class="tile-stone-indicator yellow" aria-hidden="true"></span>
         </button>
       </nav>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer with Soft Neo-Brutalist Pill -->
     <footer class="hub-footer">
-      <div class="footer-rink-line" aria-hidden="true"></div>
-      <a href="https://github.com" id="external-link" class="footer-link" target="_blank" rel="noopener noreferrer">
-        <span class="footer-leaf" aria-hidden="true">
-          <!-- Mandatory Maple Leaf SVG Geometry -->
-          <svg viewBox="0 0 298.72 341.12" class="svg-footer-leaf">
-            <g transform="translate(-250.85 -233.44)">
-              <path
-                d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
-                fill="currentColor"
-              />
-            </g>
-          </svg>
-        </span>
-        About &amp; Info
+      <a 
+        href="https://github.com" 
+        id="external-link" 
+        class="footer-link" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        aria-label="About and Info (opens in a new tab)"
+      >
+        <span class="footer-leaf" aria-hidden="true">🍁</span>
+        <span>About &amp; Info</span>
+        <svg viewBox="0 0 24 24" class="footer-ext-icon" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
       </a>
     </footer>
   </div>
 
-  <!-- =========================================================================
-       MODALS & SLIDE-UP BOTTOM SHEETS
-       ========================================================================= -->
+  <!-- Modal Backdrop -->
   <div id="modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
 
   <!-- Settings Bottom Sheet -->
@@ -168,13 +135,13 @@
     aria-labelledby="settings-title"
     hidden
   >
-    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-handle" aria-hidden="true" title="Swipe down to close"></div>
     <div class="sheet-header">
-      <div class="sheet-header-title-group">
-        <span class="sheet-curling-dot" aria-hidden="true"></span>
+      <div class="sheet-title-group">
+        <span class="sheet-leaf" aria-hidden="true">🍁</span>
         <h2 id="settings-title" class="sheet-title">Preferences</h2>
       </div>
-      <button type="button" class="sheet-close" id="close-settings" aria-label="Close settings">
+      <button type="button" class="sheet-close" id="close-settings" aria-label="Close preferences">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -186,8 +153,8 @@
       <!-- Sound FX Switch -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">Sound FX</span>
-          <span class="setting-desc">Tactile stone clicks &amp; ice chimes</span>
+          <span class="setting-label">Rink Audio FX</span>
+          <span class="setting-desc">Tactile stone-glide resonance &amp; clicks</span>
         </div>
         <label class="switch" for="toggle-sound">
           <input type="checkbox" id="toggle-sound" checked />
@@ -198,8 +165,8 @@
       <!-- Animations Switch -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">Animations</span>
-          <span class="setting-desc">Ambient ice motion &amp; floating motifs</span>
+          <span class="setting-label">Atmosphere &amp; Motion</span>
+          <span class="setting-desc">Live curling end simulation &amp; effects</span>
         </div>
         <label class="switch" for="toggle-animations">
           <input type="checkbox" id="toggle-animations" checked />
@@ -218,18 +185,10 @@
     aria-labelledby="donate-title"
     hidden
   >
-    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-handle" aria-hidden="true" title="Swipe down to close"></div>
     <div class="sheet-header">
       <div class="donate-badge" aria-hidden="true">
-        <!-- Mandatory Maple Leaf inside Heart Badge -->
-        <svg viewBox="0 0 298.72 341.12" class="svg-donate-leaf">
-          <g transform="translate(-250.85 -233.44)">
-            <path
-              d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
-              fill="currentColor"
-            />
-          </g>
-        </svg>
+        <span class="donate-leaf">🍁</span>
       </div>
       <h2 id="donate-title" class="sheet-title">Keep Games Ad-Free</h2>
       <button type="button" class="sheet-close" id="close-donate" aria-label="Close donation dialog">
@@ -242,28 +201,30 @@
 
     <div class="sheet-content donate-body">
       <p class="donate-intro">
-        Thank you for playing and supporting our games! We built this hub to provide an ultra-clean, lightning-fast gaming experience.
+        Thank you for playing and supporting our games! We built this Ice House hub to provide an ultra-clean, lightning-fast gaming experience.
       </p>
       <p class="donate-sub">
-        No tracking, no pop-up banners, and zero intrusive ads. If you enjoy playing, any contribution directly powers server hosting and new puzzle development.
+        No tracking, no pop-up banners, and zero intrusive ads. Any contribution directly powers server hosting and daily puzzle creation.
       </p>
 
-      <!-- Specified Stripe Donation Link -->
+      <!-- External Stripe Link with Clarifying Target Info -->
       <a 
         href="https://buy.stripe.com/14AbJ0czm3Ct3ARdPgefC0U" 
         target="_blank" 
         rel="noopener noreferrer" 
         class="donate-action-btn"
         id="stripe-donate-link"
+        aria-label="Donate to Support on Stripe (opens in a secure new tab)"
       >
         <span>Donate to Support</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
         </svg>
       </a>
 
-      <p class="donate-appreciation">Thank you so much for keeping it alive! ❤️</p>
+      <p class="donate-appreciation">Thank you so much for keeping it alive! 🍁</p>
     </div>
   </div>
 
