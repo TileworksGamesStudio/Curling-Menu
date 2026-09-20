@@ -11,6 +11,7 @@
  *  - Resilient quiescence detection & delivery watchdog (guaranteed releases, zero deadlock)
  *  - Board persistence with natural out-of-play culling
  *  - Web Audio synthetic ice-glide chimes & tactile clicks
+ *  - Dynamic viewport scaling & balanced mobile 3x3 grid containment
  */
 (function () {
   "use strict";
@@ -204,7 +205,34 @@
   }
 
   /* --------------------------------------------------------------------------
-     4. Contextual Greeting, ARIA Announcements & Toast
+     4. Dynamic Mobile Viewport & Symmetric Grid Scaling
+     -------------------------------------------------------------------------- */
+  function applyDynamicMobileLayout() {
+    const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Available width accounting for side safe zones
+    const availableWidth = Math.min(viewportWidth - 24, 440);
+    // Calculated cell size ensuring strict 3-column symmetry
+    const gap = viewportWidth < 360 ? 8 : (viewportWidth < 400 ? 10 : 12);
+    const calculatedTileSize = Math.floor((availableWidth - (gap * 2)) / 3);
+
+    const root = document.documentElement;
+    root.style.setProperty("--app-width", `${availableWidth}px`);
+    root.style.setProperty("--app-height", `${viewportHeight}px`);
+    root.style.setProperty("--dyn-tile-size", `${calculatedTileSize}px`);
+    root.style.setProperty("--dyn-grid-gap", `${gap}px`);
+
+    // Compact scale mode for shorter mobile screens
+    if (viewportHeight < 680) {
+      document.body.classList.add("compact-screen");
+    } else {
+      document.body.classList.remove("compact-screen");
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     5. Contextual Greeting, ARIA Announcements & Toast
      -------------------------------------------------------------------------- */
   function updateTimeOfDayGreeting() {
     const subtitle = document.getElementById("hub-subtitle");
@@ -249,7 +277,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     5. Grid Renderer
+     6. Grid Renderer with Truncation Prevention & Centered Alignment
      -------------------------------------------------------------------------- */
   function renderGrid() {
     const grid = document.getElementById("game-grid");
@@ -263,6 +291,8 @@
       const item = validateGameItem(rawItem, index);
       const li = document.createElement("li");
       li.className = "grid-cell";
+      // Enforce min-width: 0 so long text cannot widen columns off-screen
+      li.style.minWidth = "0";
 
       if (item.enabled) {
         const link = document.createElement("a");
@@ -270,6 +300,7 @@
         link.href = item.url;
         link.setAttribute("aria-label", `Play ${item.name}: ${item.desc}`);
         link.setAttribute("data-id", item.id);
+        link.style.minWidth = "0";
 
         if (completedList.includes(item.id)) {
           const badge = document.createElement("span");
@@ -320,6 +351,7 @@
         disabledTile.className = "tile tile-disabled";
         disabledTile.setAttribute("aria-disabled", "true");
         disabledTile.setAttribute("aria-label", `${item.name} is coming soon`);
+        disabledTile.style.minWidth = "0";
 
         const iconEl = document.createElement("div");
         iconEl.className = "tile-icon";
@@ -353,7 +385,7 @@
   });
 
   /* --------------------------------------------------------------------------
-     6. Modal Dialog Controller
+     7. Modal Dialog Controller
      -------------------------------------------------------------------------- */
   let activeModal = null;
   let previouslyFocused = null;
@@ -503,7 +535,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     7. Settings Interactions
+     8. Settings & App Interactions
      -------------------------------------------------------------------------- */
   function applyAnimationState() {
     if (state.animations) {
@@ -577,6 +609,17 @@
       });
     }
 
+    // Dynamic viewport recalculation on resize and mobile orientation change
+    let resizeTimer = null;
+    window.addEventListener("resize", () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(applyDynamicMobileLayout, 60);
+    });
+
+    window.addEventListener("orientationchange", () => {
+      setTimeout(applyDynamicMobileLayout, 100);
+    });
+
     window.addEventListener("storage", (e) => {
       if (e.key === SETTINGS_KEY) {
         loadSettings();
@@ -590,7 +633,7 @@
   }
 
   /* ==========================================================================
-     8. CANADIAN CURLING ICE HOUSE SIMULATION ENGINE
+     9. CANADIAN CURLING ICE HOUSE SIMULATION ENGINE
      Persistent curling sheet with deep off-screen launches, strict RED/YELLOW
      alternation, button convergence, real tactics, 50% light curl, and
      recurring 5th-rock MEGA CLEAR deliveries with high-velocity impacts.
@@ -1152,10 +1195,11 @@
   })();
 
   /* --------------------------------------------------------------------------
-     9. App Initialization
+     10. App Initialization
      -------------------------------------------------------------------------- */
   function initApp() {
     loadSettings();
+    applyDynamicMobileLayout();
     updateTimeOfDayGreeting();
     renderGrid();
     setupInteractions();
