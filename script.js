@@ -24,7 +24,7 @@
     { id: "connections",  name: "Connections",  desc: "Find groups of 4",     url: "https://tileworksgamesstudio.github.io/Curling-Connections/", enabled: true,  icon: "nodes" },
     { id: "trivia",       name: "Trivia",       desc: "Knowledge test",       url: "https://tileworksgamesstudio.github.io/Curling-Trivia/",      enabled: true,  icon: "help" },
     { id: "hangman",      name: "Hangman",      desc: "Guess the phrase",     url: "https://tileworksgamesstudio.github.io/Curling-Hangman/",     enabled: true,  icon: "text" },
-    { id: "specs",        name: "Match",        desc: "Pair identical cards", url: "https://tileworksgamesstudio.github.io/Curling-Cards/",       enabled: true,  icon: "check" },
+    { id: "specs",        name: "Sequence",        desc: "Complete the sequence", url: "https://tileworksgamesstudio.github.io/Curling-Cards/",       enabled: true,  icon: "check" },
     { id: "memory",       name: "Memory",       desc: "Pattern recall",       url: "https://tileworksgamesstudio.github.io/Curling-Memory/",      enabled: true,  icon: "cards" },
     { id: "spelling-bee", name: "Spelling Bee", desc: "Form 4+ letter words", url: "https://tileworksgamesstudio.github.io/Curling-Spelling/",    enabled: true,  icon: "hex" },
     { id: "wordle",       name: "Word Guess",   desc: "5-letter challenge",   url: "https://tileworksgamesstudio.github.io/Curling-Wordle/",      enabled: true,  icon: "rows" },
